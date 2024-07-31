@@ -14,6 +14,7 @@ SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 SRC_BONUS = $(addprefix $(SRC_BONUS_DIR)/, $(SRC_BONUS_FILES))
 
 LIBFTA = -L./libft -lft
+PRINTF = ft_printf/libftprintf.a
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -38,8 +39,9 @@ make_libft:
 	
 $(NAME): $(OBJ)
 	@make -C ./libft
+	@make -C ./ft_printf
 	@echo "$(GREEN)Libft Compiled.$(CLEAR)"
-	$(CC) $(OBJ) $(CFLAGS) $(LIBFTA) -o $(NAME)
+	$(CC) $(OBJ) $(CFLAGS) $(LIBFTA) $(PRINTF) -o $(NAME)
 	@echo "$(GREEN)Push Swap Compiled.$(CLEAR)"
 
 $(NAME_BONUS): $(OBJ_BONUS)

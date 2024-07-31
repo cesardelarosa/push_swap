@@ -11,22 +11,22 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
+#include <stdio.h>
 
 void	printf_near(t_stack *stack, int bool)
 {
 	if(stack == NULL)
 	{
-		ft_printf("Stack is empty\n");
+		printf("Stack is empty\n");
 		return;
 	}
 	if(bool == 1)
-		ft_printf("\n beforeswap\n");
+		printf("\n beforeswap\n");
 	else
-		ft_printf("\nafkterswap\n"); 
-	ft_printf("\nstack->num: %d\n", stack->num);
-	ft_printf("\nstack->next->num: %d\n", stack->next->num);
-	ft_printf("\nstack->prev->num: %d\n", stack->prev->num);
+		printf("\nafkterswap\n"); 
+	printf("\nstack->num: %d\n", stack->num);
+	printf("\nstack->next->num: %d\n", stack->next->num);
+	printf("\nstack->prev->num: %d\n", stack->prev->num);
 }
 void print_stack(t_stack *lst)
 {
@@ -34,14 +34,14 @@ void print_stack(t_stack *lst)
 
 	if (!lst)
 	{
-		ft_printf("Stack is empty\n");
+		printf("Stack is empty\n");
 		return;
 	}
 
 	current = lst;
 	do
 	{
-		ft_printf("Number: %d\n", current->num);
+		printf("Number: %d\n", current->num);
 		current = current->next;
 	} while (current != lst);
 }
@@ -56,4 +56,3 @@ void print_result(char **result)
 		i++;
 	}
 }
-

@@ -24,8 +24,9 @@ struct       s_stack
     int     num;
 };
 
+int	elements(t_stack **a);
 void stacks_initiator(t_stack ***a, t_stack ***b);
-
+void	order(t_stack **a, t_stack **b);
 void	ft_lstadd_back_psw(t_stack **lst, t_stack *new);
 t_stack	*ft_lstlast_psw(t_stack *lst);
 void	ft_lstadd_front_psw(t_stack **lst, t_stack *new);

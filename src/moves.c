@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "ft_printf/ft_printf.h"
 
 void push(t_stack **a, t_stack **b, int type_move)
 {
@@ -138,7 +139,7 @@ void swap_node(t_stack **stack)
 	// Verifica que el stack y los dos primeros nodos existen y que el segundo nodo no es el mismo que el primero.
 	if (stack && *stack && (*stack)->next && (*stack)->next != *stack)
 	{
-		printf_near(*stack, 0);
+		//printf_near(*stack, 0);
 		first = *stack;
 		second = first->next;
 
@@ -158,6 +159,6 @@ void swap_node(t_stack **stack)
 
 		// Actualiza el puntero de la pila para que apunte al segundo nodo.
 		*stack = second;
-		printf_near(*stack, 1);
+		//printf_near(*stack, 1);
 	}
 }

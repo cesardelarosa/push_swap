@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	
 	stacks_initiator(&a, &b);
 	stack_creator(a, argc, argv);
-//	order(a, b);
+	order(a, b);
 	ft_lstclear_psw(a);
 	ft_lstclear_psw(b);	
 	free(a);

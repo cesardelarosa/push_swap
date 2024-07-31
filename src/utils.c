@@ -12,20 +12,41 @@
 
 #include "push_swap.h"
 
-int	check_order(t_stack **a)
+int	elements(t_stack **a)
 {
-	t_stack *tmp;
-
+	int	n;
+	int	first;
+	t_stack	*tmp;
 
 	tmp = *a;
-	while(tmp && tmp->next)
+	if (tmp == 0x0)
+		return (0);
+	n = 1;
+	first = tmp->num;
+	while (first != tmp->next->num)
 	{
-		if( tmp->num > tmp->next->num)
-			return (0);
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
+		n++;
 	}
-	return (1);
+	return (n);
+}
+
+int	check_order(t_stack **a)
+{
+	int	n;
+	int	count;
+	t_stack *tmp;
+	
+	tmp = *a;
+	n = elements(&tmp);
+	count = 0;
+	while(n--)
+	{
+		if (tmp->num > tmp->next->num)
+			count++;
+		tmp = tmp->next;
+	}
+	return (count < 2);
 }
 
 

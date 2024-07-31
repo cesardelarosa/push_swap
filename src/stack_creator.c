@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include <stdio.h>
+#include <limits.h>
 #include "push_swap.h"
 
 int count_numbers(int argc, char **argv)
@@ -68,7 +69,7 @@ void handle_split_result(char **combined_args, char **result, int *index)
 	j = 0;
 	while (result[j])
 	{
-		combined_args[*index] = strdup(result[j]);
+		combined_args[*index] = ft_strdup(result[j]);
 		if (!combined_args[*index])
 		{
 			free_split(result);
@@ -113,7 +114,7 @@ void stack_creator(t_stack **a, int argc, char **argv)
 	allocate_combined_args(&combined_args, num_numbers);
 	fill_combined_args(combined_args, argc, argv);
 	combined_args[num_numbers] = NULL;
-	print_result(combined_args);
+	//print_result(combined_args);
 	check_duplicates(combined_args);
 	stack_creator_add(a, combined_args);
 	free_split(combined_args);
