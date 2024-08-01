@@ -67,11 +67,13 @@ ec: fclean e
 clean:
 	$(RM) $(OBJ_DIR)
 	@make -C libft clean
+	@make -C ft_printf clean
 	@echo "$(RED)Objects cleaned.$(CLEAR)"
 
 fclean: clean
 	$(RM) $(NAME)
 	@make -C libft fclean
+	@make -C ft_printf fclean
 	@echo "$(RED)$(NAME) and libft cleaned.$(CLEAR)"
 
 re: fclean all

@@ -8,11 +8,13 @@ int	order_b(int n, t_stack **b)
 	int	max;
 	int	max_pos;
 
+	if (elements(b) < 3)
+		return (0);
 	tmp = *b;
 	i = 0;
 	max = tmp->num;
 	max_pos = 0;
-	while (!(n > tmp->num && n < tmp->prev->num) && tmp->num != (*b)->next->num)
+	while (!(n > tmp->num && n < tmp->prev->num) && tmp->num != (*b)->prev->num)
 	{
 		tmp = tmp->next;
 		i++;
@@ -24,6 +26,32 @@ int	order_b(int n, t_stack **b)
 	}
 	if (!(n > tmp->num && n < tmp->prev->num))
 		i = max_pos;
+	return (i);
+}
+
+int	order_a(int n, t_stack **a)
+{
+	t_stack	*tmp;
+	int	i;
+	int	min;
+	int	min_pos;
+
+	tmp = *a;
+	i = 0;
+	min = tmp->num;
+	min_pos = 0;
+	while (!(n < tmp->num && n > tmp->prev->num) && tmp->num != (*a)->prev->num)
+	{
+		tmp = tmp->next;
+		i++;
+		if (tmp->num < min)
+		{
+			min = tmp->num;
+			min_pos = i;
+		}
+	}
+	if (!(n < tmp->num && n > tmp->prev->num))
+		i = min_pos;
 	return (i);
 }
 
@@ -40,6 +68,7 @@ int	max(int a, int b)
 		return (b);
 	return (a);
 }
+/*
 
 void	optimize(int **r, int n_a, int n_b)
 {
@@ -62,20 +91,37 @@ void	optimize(int **r, int n_a, int n_b)
 	else
 		(*r)[2] = 0;
 }
+*/
 
+void	print(int *r, t_stack **a, t_stack **b)
+{
+	while (r[0]-- > 0)
+		rotate(a, b, MOVE_RA);
+	while (r[1]-- > 0)
+		rotate(a, b, MOVE_RB);
+	while (r[2]-- > 0)
+		rotate(a, b, MOVE_RR);
+	while (++r[0] < 0)
+		reverse_rotate(a, b, MOVE_RRA);
+	while (++r[1] < 0)
+		reverse_rotate(a, b, MOVE_RRB);
+	while (++r[2] < 0)
+		reverse_rotate(a, b, MOVE_RRR);
+}
+/*
 void	find_best(t_stack **a, t_stack **b, int n_a, int n_b)
 {
 	t_stack	*tmp;
-	int	i;
-	int	r[3];
-	int	*ptr;
+//	int	i;
+//	int	r[3];
+//	int	*ptr;
 	int	best[3];
-
+	
 	tmp = *a;
-	i = 0;
 	best[0] = 0;
 	best[1] = order_b(tmp->num, b);
 	best[2] = 0;
+	i = 0;
 	while (i < n_a)
 	{
 		r[0] = i;
@@ -92,35 +138,53 @@ void	find_best(t_stack **a, t_stack **b, int n_a, int n_b)
 		tmp = tmp->next;
 		i++;
 	}
+	ft_printf("%d, %d, %d", best[0], best[1], best[2]);
 	while (best[0]-- > 0)
 		rotate(a, b, MOVE_RA);
 	while (best[1]-- > 0)
 		rotate(a, b, MOVE_RB);
 	while (best[2]-- > 0)
 		rotate(a, b, MOVE_RR);
-	while (best[0]++ < 0)
+	while (++best[0] < 0)
 		reverse_rotate(a, b, MOVE_RRA);
-	while (best[1]++ < 0)
+	while (++best[1] < 0)
 		reverse_rotate(a, b, MOVE_RRB);
-	while (best[2]++ < 0)
+	while (++best[2] < 0)
 		reverse_rotate(a, b, MOVE_RRR);
-		
-}
+	print(best, a, b);
+}*/
 
 void	order(t_stack **a, t_stack **b)
 {
 	int	n_a;
 	int	n_b;
+	int	r[3];
 
 	n_a = elements(a);
 	n_b = 0;
 	while (!check_order(a) && n_a > 3)
 	{
+		r[0] = 0;
+		r[1] = order_b((*a)->num, b);
+		r[2] = 0;
+		print(r, a, b);
 		push(a, b, MOVE_PB);
-		find_best(a, b, n_a, n_b);	
 		n_a--;
 		n_b++;
 	}
 	if (!check_order(a))
 		swap(a, b, MOVE_SA);
+	while (n_b > 0)
+	{
+		r[0] = order_a((*b)->num, a);
+		r[1] = 0;
+		r[2] = 0;
+		print(r, a, b);
+		push(a, b, MOVE_PA);
+		n_b--;
+		n_a++;
+	}
+		while (!((*a)->num < (*a)->next->num && (*a)->num < (*a)->prev->num))
+			rotate(a, b, MOVE_RA);
+	print_stack(*a);
 }
