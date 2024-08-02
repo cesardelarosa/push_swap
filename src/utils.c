@@ -33,14 +33,12 @@ int	elements(t_stack **a)
 
 int	check_order(t_stack **a)
 {
-	int	n;
 	int	count;
 	t_stack *tmp;
 	
 	tmp = *a;
-	n = elements(&tmp);
 	count = 0;
-	while(n--)
+	while(count == 0 || tmp != *a)
 	{
 		if (tmp->num > tmp->next->num)
 			count++;
