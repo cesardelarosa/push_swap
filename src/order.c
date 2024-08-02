@@ -172,6 +172,8 @@ void	order(t_stack **a, t_stack **b)
 	t_stack	*tmp;
 
 	n_a = elements(a);
+	if (n_a < 2)
+		return ;
 	n_b = 0;
 	while (!check_order(a) && n_a > 3)
 	{
