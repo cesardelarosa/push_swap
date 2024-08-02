@@ -69,7 +69,9 @@ int	max(int a, int b)
 	return (a);
 }
 
-void	optimize(int (*r)[3], int n_a, int n_b)
+/*
+
+void	optimize(int **r, int n_a, int n_b)
 {
 	if ((*r)[0] > n_a / 2)
 		(*r)[0] -= n_a;
@@ -90,6 +92,7 @@ void	optimize(int (*r)[3], int n_a, int n_b)
 	else
 		(*r)[2] = 0;
 }
+*/
 
 void	print(int *r, t_stack **a, t_stack **b)
 {
@@ -107,61 +110,11 @@ void	print(int *r, t_stack **a, t_stack **b)
 		reverse_rotate(a, b, MOVE_RRR);
 }
 
-int	abs(int n)
+void	rotations(int (*r)[3], t_stack **a, t_stack **b)
 {
-	if (n < 0)
-		return (-n);
-	return (n);
-}
-
-void	rotations_a(int (*r)[3], t_stack **a, t_stack **b, int n_a, int n_b)
-{
-	int	m[3];
-	int	i;
-	t_stack	*tmp;
-
-	i = 0;
-	tmp = *a;
-	while (i < n_a)
-	{
-		m[0] = i;
-		m[1] = order_b(tmp->num, b);
-		m[2] = 0;
-		optimize(&m, n_a, n_b);
-		if (i++ == 0 || abs(m[0]) + abs(m[1]) + abs(m[2]) < abs((*r)[0]) \
-				+ abs((*r)[1]) + abs((*r)[2]))
-		{
-			(*r)[0] = m[0];
-			(*r)[1] = m[1];
-			(*r)[2] = m[2];
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	rotations_b(int (*r)[3], t_stack **a, t_stack **b, int n_a, int n_b)
-{
-	int	m[3];
-	int	i;
-	t_stack	*tmp;
-
-	i = 0;
-	tmp = *b;
-	while (i < n_b)
-	{
-		m[0] = order_a(tmp->num, a);
-		m[1] = i;
-		m[2] = 0;
-		optimize(&m, n_a, n_b);
-		if (i++ == 0 || abs(m[0]) + abs(m[1]) + abs(m[2]) < abs((*r)[0]) \
-				+ abs((*r)[1]) + abs((*r)[2]))
-		{
-			(*r)[0] = m[0];
-			(*r)[1] = m[1];
-			(*r)[2] = m[2];
-		}
-		tmp = tmp->next;
-	}
+	(*r)[0] = 0;
+	(*r)[1] = order_b((*a)->num, b);
+	(*r)[2] = 0;
 }
 
 void	order(t_stack **a, t_stack **b)
@@ -169,13 +122,12 @@ void	order(t_stack **a, t_stack **b)
 	int	n_a;
 	int	n_b;
 	int	r[3];
-	t_stack	*tmp;
 
 	n_a = elements(a);
 	n_b = 0;
 	while (!check_order(a) && n_a > 3)
 	{
-		rotations_a(&r, a, b, n_a, n_b);
+		rotations(&r, a, b);
 		print(r, a, b);
 		push(a, b, MOVE_PB);
 		n_a--;
@@ -185,22 +137,15 @@ void	order(t_stack **a, t_stack **b)
 		swap(a, b, MOVE_SA);
 	while (n_b > 0)
 	{
-		rotations_b(&r, a, b, n_a, n_b);
+		r[0] = order_a((*b)->num, a);
+		r[1] = 0;
+		r[2] = 0;
 		print(r, a, b);
 		push(a, b, MOVE_PA);
 		n_b--;
 		n_a++;
 	}
-	r[0] = 0;
-	r[1] = 0;
-	r[2] = 0;
-	tmp = *a;
-	while (!(tmp->num < tmp->next->num && tmp->num < tmp->prev->num))
-	{
-		r[0]++;
-		tmp = tmp->next;
-	}
-	optimize(&r, n_a, n_b);
-	print(r, a, b);
+		while (!((*a)->num < (*a)->next->num && (*a)->num < (*a)->prev->num))
+			rotate(a, b, MOVE_RA);
 	print_stack(*a);
 }
