@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <cde-la-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 09:39:07 by cde-la-r          #+#    #+#             */
-/*   Updated: 2024/07/13 12:23:33 by cde-la-r         ###   ########.fr       */
+/*   Created: 2024/05/24 09:43:35 by cde-la-r          #+#    #+#             */
+/*   Updated: 2024/08/04 22:25:34 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-#include "push_swap.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include "../libft/libft.h"
+# include "../ft_printf/ft_printf.h"
 
-int	find_min(t_list *lst)
+typedef struct s_stacks
 {
-	int	min;
+	t_list	*a;
+	t_list	*b;
+}	t_stacks;
 
-	min = *(int *)(lst->content);
-	while (lst)
-	{
-		if (*(int *)(lst->content) < min)
-			min = *(int *)(lst->content);
-		lst = lst->next;
-	}
-	return (min);
-}
+void	swap(t_stacks *stacks, char c);
+void	push(t_stacks *stacks, char c);
+void	rotate(t_stacks *stacks, char c);
+void	reverse_rotate(t_stacks *stacks, char c);
 
-int	find_max(t_list *lst)
-{
-	int	max;
+void	order(t_stacks *stacks);
 
-	max = *(int *)(lst->content);
-	while (lst)
-	{
-		if (*(int *)(lst->content) > max)
-			max = *(int *)(lst->content);
-		lst = lst->next;
-	}
-	return (max);
-}
+#endif

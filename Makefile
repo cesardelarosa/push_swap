@@ -3,10 +3,10 @@ LIBFT = libft/libft.a
 PRINTF = ft_printf/libftprintf.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-INCLUDE = -I include
+INCLUDE = -I inc
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = $(SRC_DIR)/main.c $(SRC_DIR)/operations.c $(SRC_DIR)/order.c $(SRC_DIR)/utils.c
+SRC = $(SRC_DIR)/main.c $(SRC_DIR)/operations.c $(SRC_DIR)/order.c
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
