@@ -1,57 +1,33 @@
 #include "push_swap.h"
 #include "ft_printf/ft_printf.h"
+#include "libft/libft.h"
+#include <limits.h>
 
-int	order_b(int n, t_stack **b)
+int	location(int n, t_stack **s, int id)
 {
 	t_stack	*tmp;
 	int	i;
-	int	max;
-	int	max_pos;
+	int	ext;
+	int	ext_pos;
 
-	if (elements(b) < 3)
+	tmp = *s;
+	if (tmp == NULL)
 		return (0);
-	tmp = *b;
 	i = 0;
-	max = tmp->num;
-	max_pos = 0;
-	while (!(n > tmp->num && n < tmp->prev->num) && tmp->num != (*b)->prev->num)
+	ext = tmp->num;
+	ext_pos = 0;
+	while (!((n <= tmp->num && n >= tmp->prev->num && id == 1) || (n >= tmp->num && n <= tmp->prev->num && id == 0)) && tmp->num != (*s)->prev->num)
 	{
 		tmp = tmp->next;
 		i++;
-		if (tmp->num > max)
+		if ((tmp->num < ext && id == 1) || (tmp->num > ext && id == 0))
 		{
-			max = tmp->num;
-			max_pos = i;
+			ext = tmp->num;
+			ext_pos = i;
 		}
 	}
-	if (!(n > tmp->num && n < tmp->prev->num))
-		i = max_pos;
-	return (i);
-}
-
-int	order_a(int n, t_stack **a)
-{
-	t_stack	*tmp;
-	int	i;
-	int	min;
-	int	min_pos;
-
-	tmp = *a;
-	i = 0;
-	min = tmp->num;
-	min_pos = 0;
-	while (!(n < tmp->num && n > tmp->prev->num) && tmp->num != (*a)->prev->num)
-	{
-		tmp = tmp->next;
-		i++;
-		if (tmp->num < min)
-		{
-			min = tmp->num;
-			min_pos = i;
-		}
-	}
-	if (!(n < tmp->num && n > tmp->prev->num))
-		i = min_pos;
+	if (!((n <= tmp->num && n >= tmp->prev->num && id == 1) || (n >= tmp->num && n <= tmp->prev->num && id == 0)))
+		i = ext_pos;
 	return (i);
 }
 
@@ -69,26 +45,46 @@ int	max(int a, int b)
 	return (a);
 }
 
-void	optimize(int (*r)[3], int n_a, int n_b)
+int	cum_abs_sum(int *r, int n)
 {
-	if ((*r)[0] > n_a / 2)
-		(*r)[0] -= n_a;
-	if ((*r)[1] > n_b / 2)
-		(*r)[1] -= n_b;
-	if ((*r)[0] > 0 && (*r)[1] > 0)
+	int	sum;
+	int	i;
+	
+	i = 0;
+	sum = 0;
+	while(i < n)
 	{
-		(*r)[2] = min((*r)[0], (*r)[1]);
-		(*r)[0] -= (*r)[2];
-		(*r)[1] -= (*r)[2];
+		if (r[i] > 0)
+			sum += r[i];
+		else
+			sum -= r[i];
+		i++;
 	}
-	else if ((*r)[0] < 0 && (*r)[1] < 0)
-	{
-		(*r)[2] = max((*r)[0], (*r)[1]);
-		(*r)[0] -= (*r)[2];
-		(*r)[1] -= (*r)[2];
-	}
-	else
-		(*r)[2] = 0;
+	return (sum);
+}
+
+void optimize(int (*r)[3], int n[2])
+{
+	int	p[3][3];
+
+	p[0][0] = (*r)[0];
+	p[0][1] = (*r)[1];
+	p[0][2] = 0;
+	p[1][2] = min(abs(p[0][0]), abs(p[0][1]));
+	p[1][0] = p[0][0] - p[1][2];
+	p[1][1] = p[0][1] - p[1][2];
+	p[2][2] = max(p[0][0] - n[0], p[0][1] - n[1]);
+	p[2][0] = p[0][0] - p[2][2] - n[0];
+	p[2][1] = p[0][1] - p[2][2] - n[1];
+	if (p[0][0] > n[0] / 2)
+		p[0][0] -= n[0];
+	if (p[0][1] > n[1] / 2)
+		p[0][1] -= n[1];
+	ft_memcpy(*r, p[0], 3 * sizeof(int));
+	if (cum_abs_sum(p[1], 3) < cum_abs_sum(p[0], 3))
+		ft_memcpy(*r, p[1], 3 * sizeof(int));
+	if (cum_abs_sum(p[2], 3) < cum_abs_sum(p[1], 3) && cum_abs_sum(p[2], 3) < cum_abs_sum(p[0], 3))
+		ft_memcpy(*r, p[2], 3 * sizeof(int));
 }
 
 void	print(int *r, t_stack **a, t_stack **b)
@@ -107,102 +103,59 @@ void	print(int *r, t_stack **a, t_stack **b)
 		reverse_rotate(a, b, MOVE_RRR);
 }
 
-int	abs(int n)
-{
-	if (n < 0)
-		return (-n);
-	return (n);
-}
-
-void	rotations_a(int (*r)[3], t_stack **a, t_stack **b, int n_a, int n_b)
+void	rotations(int (*r)[3], t_stack **s1, t_stack **s2, int n[2], int id)
 {
 	int	m[3];
 	int	i;
 	t_stack	*tmp;
 
 	i = 0;
-	tmp = *a;
-	while (i < n_a)
+	tmp = *s1;
+	while (i < n[id])
 	{
-		m[0] = i;
-		m[1] = order_b(tmp->num, b);
+		m[0] = i * !id + location(tmp->num, s2, id) * id;
+		m[1] = location(tmp->num, s2, id) * !id + i * id;
 		m[2] = 0;
-		optimize(&m, n_a, n_b);
-		if (i++ == 0 || abs(m[0]) + abs(m[1]) + abs(m[2]) < abs((*r)[0]) \
-				+ abs((*r)[1]) + abs((*r)[2]))
-		{
-			(*r)[0] = m[0];
-			(*r)[1] = m[1];
-			(*r)[2] = m[2];
-		}
-		tmp = tmp->next;
-	}
-}
-
-void	rotations_b(int (*r)[3], t_stack **a, t_stack **b, int n_a, int n_b)
-{
-	int	m[3];
-	int	i;
-	t_stack	*tmp;
-
-	i = 0;
-	tmp = *b;
-	while (i < n_b)
-	{
-		m[0] = order_a(tmp->num, a);
-		m[1] = i;
-		m[2] = 0;
-		optimize(&m, n_a, n_b);
-		if (i++ == 0 || abs(m[0]) + abs(m[1]) + abs(m[2]) < abs((*r)[0]) \
-				+ abs((*r)[1]) + abs((*r)[2]))
-		{
-			(*r)[0] = m[0];
-			(*r)[1] = m[1];
-			(*r)[2] = m[2];
-		}
+		optimize(&m, n);
+		if (i++ == 0 || cum_abs_sum(m, 3) < cum_abs_sum(*r, 3))
+			ft_memcpy(*r, m, 3 * sizeof(int));
 		tmp = tmp->next;
 	}
 }
 
 void	order(t_stack **a, t_stack **b)
 {
-	int	n_a;
-	int	n_b;
+	int	n[2];
 	int	r[3];
 	t_stack	*tmp;
 
-	n_a = elements(a);
-	if (n_a < 2)
-		return ;
-	n_b = 0;
-	while (!check_order(a) && n_a > 3)
+	n[0] = elements(a);
+	n[1] = 0;
+	while (!check_order(a) && n[0] > 3)
 	{
-		rotations_a(&r, a, b, n_a, n_b);
+		rotations(&r, a, b, n, 0);
 		print(r, a, b);
 		push(a, b, MOVE_PB);
-		n_a--;
-		n_b++;
+		n[0]--;
+		n[1]++;
 	}
 	if (!check_order(a))
 		swap(a, b, MOVE_SA);
-	while (n_b > 0)
+	while (n[1] > 0)
 	{
-		rotations_b(&r, a, b, n_a, n_b);
+		rotations(&r, b, a, n, 1);
 		print(r, a, b);
 		push(a, b, MOVE_PA);
-		n_b--;
-		n_a++;
+		n[0]++;
+		n[1]--;
 	}
 	r[0] = 0;
 	r[1] = 0;
 	r[2] = 0;
 	tmp = *a;
-	while (!(tmp->num < tmp->next->num && tmp->num < tmp->prev->num))
-	{
-		r[0]++;
+	while (!(tmp->num < tmp->next->num && tmp->num < tmp->prev->num) && r[0]++ != n[0] - 1)
 		tmp = tmp->next;
-	}
-	optimize(&r, n_a, n_b);
+	optimize(&r, n);
 	print(r, a, b);
-	print_stack(*a);
+	//print_stack(*a);
 }

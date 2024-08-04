@@ -6,7 +6,7 @@
 /*   By: adpedrer <adpedrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:36:40 by adpedrer          #+#    #+#             */
-/*   Updated: 2024/07/26 01:50:54 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:34:26 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	check_order(t_stack **a)
 {
 	int	count;
 	t_stack *tmp;
-	
+
 	tmp = *a;
+	if (tmp == tmp->next)
+		return (1);
 	count = 0;
 	while(count == 0 || tmp != *a)
 	{
