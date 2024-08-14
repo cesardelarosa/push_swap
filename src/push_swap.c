@@ -15,16 +15,19 @@
 
 int main(int argc, char **argv)
 {
-	t_stack	**a;
-	t_stack	**b;
+	t_stacks	*stacks;
 	
-	stacks_initiator(&a, &b);
-	stack_creator(a, argc, argv);
-	order(a, b);
-	ft_lstclear_psw(a);
-	ft_lstclear_psw(b);	
-	free(a);
-	free(b);
+	stacks = malloc(sizeof(t_stacks));
+	if (!stacks)
+		error(2);
+	stacks_initiator(&(stacks->stack[0]), &(stacks->stack[1]));
+	stack_creator(stacks->stack[0], argc, argv);
+	order(stacks);
+	ft_lstclear_psw(stacks->stack[0]);
+	ft_lstclear_psw(stacks->stack[1]);	
+	free(stacks->stack[0]);
+	free(stacks->stack[1]);
+	free(stacks);
 	return (0);
 }
 

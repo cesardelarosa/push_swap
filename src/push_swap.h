@@ -15,6 +15,14 @@
 
 # include "libft/libft.h"
 
+
+typedef struct	s_operations
+{
+	int	ra;
+	int	rb;
+	int	n;
+}	t_operations;
+
 typedef struct s_stack t_stack;
 
 struct       s_stack
@@ -24,9 +32,17 @@ struct       s_stack
     int     num;
 };
 
+typedef struct	s_stacks
+{
+	t_stack	**stack[2];
+	int	n[2];
+}	t_stacks;
+
+int	abs(int n);
+int	max(int a, int b);
 int	elements(t_stack **a);
 void stacks_initiator(t_stack ***a, t_stack ***b);
-void	order(t_stack **a, t_stack **b);
+void	order(t_stacks *stacks);
 void	ft_lstadd_back_psw(t_stack **lst, t_stack *new);
 t_stack	*ft_lstlast_psw(t_stack *lst);
 void	ft_lstadd_front_psw(t_stack **lst, t_stack *new);

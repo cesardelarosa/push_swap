@@ -59,3 +59,17 @@ void stacks_initiator(t_stack ***a, t_stack ***b)
 	**a = NULL;
 	**b = NULL;
 }
+
+int	abs(int n)
+{
+	if (n < 0)
+		return (-n);
+	return (n);
+}
+
+int	max(int a, int b)
+{
+	if (b > a)
+		return (b);
+	return (a);
+}

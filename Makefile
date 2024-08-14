@@ -2,7 +2,7 @@ NAME = push_swap
 NAME_BONUS = checker
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -fsanitize=undefined
+CFLAGS = -Wall -Wextra -Werror -lm -g3 -fsanitize=address -fsanitize=undefined
 
 SRC_DIR = src
 SRC_BONUS_DIR = src_bonus

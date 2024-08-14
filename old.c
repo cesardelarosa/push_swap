@@ -2,9 +2,9 @@
 #include "ft_printf/ft_printf.h"
 #include "libft/libft.h"
 #include <limits.h>
-#include <math.h>
 
-int	location(int n, t_stack **s)
+
+int	location(int n, t_stack **s, int id)
 {
 	t_stack	*tmp;
 	int	i;
@@ -17,17 +17,20 @@ int	location(int n, t_stack **s)
 	i = 0;
 	ext = tmp->num;
 	ext_pos = 0;
-	while (!(n <= tmp->num && n >= tmp->prev->num) && tmp->num != (*s)->prev->num)
+	while (!((n <= tmp->num && n >= tmp->prev->num && id == 1) \
+		|| (n >= tmp->num && n <= tmp->prev->num && id == 0)) \
+		&& tmp->num != (*s)->prev->num)
 	{
 		tmp = tmp->next;
 		i++;
-		if (tmp->num < ext)
+		if ((tmp->num < ext && id == 1) || (tmp->num > ext && id == 0))
 		{
 			ext = tmp->num;
 			ext_pos = i;
 		}
 	}
-	if (!(n <= tmp->num && n >= tmp->prev->num))
+	if (!((n <= tmp->num && n >= tmp->prev->num && id == 1) \
+		|| (n >= tmp->num && n <= tmp->prev->num && id == 0)))
 		i = ext_pos;
 	return (i);
 }
@@ -86,18 +89,18 @@ void	print(t_operations op, t_stacks *stacks)
 		reverse_rotate(stacks->stack[0], stacks->stack[1], MOVE_RRB);
 }
 
-void	rotations(t_operations *op, t_stacks *stacks)
+void	rotations(t_operations *op, t_stacks *stacks, int id)
 {
 	t_operations	m;
 	int		i;
 	t_stack		*tmp;
 
 	i = 0;
-	tmp = *(stacks->stack[1]);
-	while (i < stacks->n[1])
+	tmp = *(stacks->stack[id]);
+	while (i < stacks->n[id])
 	{
-		m.ra = location(tmp->num, stacks->stack[0]);
-		m.rb = i;
+		m.ra = i * !id + location(tmp->num, stacks->stack[!id], id) * id;
+		m.rb = location(tmp->num, stacks->stack[!id], id) * !id + i * id;
 		optimize(&m, stacks->n);
 		if (i++ == 0 || operations(&m) < operations(op))
 			*op = m;
@@ -105,110 +108,26 @@ void	rotations(t_operations *op, t_stacks *stacks)
 	}
 }
 
-void swapp(int *a, int *b) {
-    int temp = *a;
-    
-    *a = *b;
-    *b = temp;
-}
-
-int partition(int arr[], int left, int right) {
-    int pivot = arr[right];
-    int i = left;
-
-    for (int j = left; j < right; j++) {
-        if (arr[j] <= pivot) {
-            swapp(&arr[i], &arr[j]);
-            i++;
-        }
-    }
-    swapp(&arr[i], &arr[right]);
-    return i;
-}
-
-int quickselect(int arr[], int left, int right, int k)
-{
-	int	i;
-    	
-	if (left == right)
-        		return arr[left];
-
-    	i = partition(arr, left, right);
-
-	if (k == i)
-		return arr[k];
-	else if (k < i)
-		return quickselect(arr, left, i - 1, k);
-	else
-        	return quickselect(arr, i + 1, right, k);
-}
-
-int *stack_to_array(t_stack *stack, int *size) {
-    int *arr;
-    int i = 0;
-
-    if (!stack) {
-        *size = 0;
-        return NULL;
-    }
-    t_stack *tmp = stack;
-    do {
-        (*size)++;
-        tmp = tmp->next;
-    } while (tmp != stack);
-    arr = (int *)malloc((*size) * sizeof(int));
-    if (!arr)
-        error(0);
-    tmp = stack;
-    while (i < *size) {
-        arr[i++] = tmp->num;
-        tmp = tmp->next;
-    }
-    return arr;
-}
-
-int find_nth_smallest(t_stack *stack, int n) {
-    int size = 0;
-    int *arr = stack_to_array(stack, &size);
-
-    if (n > size)
-        n = size; // Ajustar n al tamaño de la pila
-    int result = quickselect(arr, 0, size - 1, n - 1);
-    free(arr);
-    return result;
-}
-
 void	order(t_stacks *stacks)
 {
 	t_operations	op;
 	t_stack		*tmp;
-	int		n;
-	int		i;
 
 	stacks->n[0] = elements(stacks->stack[0]);
 	stacks->n[1]= 0;
 	while (!check_order(stacks->stack[0]) && stacks->n[0] > 3)
 	{
-		i = log(stacks->n[0] + stacks->n[1])/log(1.09);
-		n = find_nth_smallest(*(stacks->stack[0]), i);
-		while (i && stacks->n[0] > 3 && !check_order(stacks->stack[0]))
-		{
-			if ((*stacks->stack[0])->num < n)
-			{
-				push(stacks->stack[0], stacks->stack[1], MOVE_PB);
-				stacks->n[0]--;
-				stacks->n[1]++;
-			}
-			else
-				rotate(stacks->stack[0], stacks->stack[1], MOVE_RA);
-			i--;
-		}
+		rotations(&op, stacks, 0);
+		print(op, stacks);
+		push(stacks->stack[0], stacks->stack[1], MOVE_PB);
+		stacks->n[0]--;
+		stacks->n[1]++;
 	}
 	if (!check_order(stacks->stack[0]))
 		swap(stacks->stack[0], stacks->stack[1], MOVE_SA);
 	while (stacks->n[1])
 	{
-		rotations(&op, stacks);
+		rotations(&op, stacks, 1);
 		print(op, stacks);
 		push(stacks->stack[0], stacks->stack[1], MOVE_PA);
 		stacks->n[0]++;
