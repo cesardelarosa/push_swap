@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adpedrer <adpedrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cde-la-r <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 23:36:40 by adpedrer          #+#    #+#             */
-/*   Updated: 2024/08/04 18:34:26 by cde-la-r         ###   ########.fr       */
+/*   Created: 2024/08/15 03:03:25 by cde-la-r          #+#    #+#             */
+/*   Updated: 2024/08/15 03:03:27 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	elements(t_stack **a)
 {
-	int	n;
-	int	first;
+	int		n;
+	int		first;
 	t_stack	*tmp;
 
 	tmp = *a;
@@ -33,31 +33,20 @@ int	elements(t_stack **a)
 
 int	check_order(t_stack **a)
 {
-	int	count;
-	t_stack *tmp;
+	int		count;
+	t_stack	*tmp;
 
 	tmp = *a;
 	if (tmp == tmp->next)
 		return (1);
 	count = 0;
-	while(count == 0 || tmp != *a)
+	while (count == 0 || tmp != *a)
 	{
 		if (tmp->num > tmp->next->num)
 			count++;
 		tmp = tmp->next;
 	}
 	return (count < 2);
-}
-
-
-void stacks_initiator(t_stack ***a, t_stack ***b)
-{
-	*a = (t_stack **)malloc(sizeof(t_stack *));
-	*b = (t_stack **)malloc(sizeof(t_stack *));
-	if (!*a || !*b)
-		error(2);
-	**a = NULL;
-	**b = NULL;
 }
 
 int	abs(int n)
@@ -72,4 +61,25 @@ int	max(int a, int b)
 	if (b > a)
 		return (b);
 	return (a);
+}
+
+double	ft_log(double x)
+{
+	double	result;
+	double	term;
+	int		n;
+
+	if (x <= 0)
+		return (-1);
+	x = (x - 1) / (x + 1);
+	result = 0.0;
+	term = x;
+	n = 1;
+	while (term > 1e-15 || term < -1e-15)
+	{
+		result += term / n;
+		term *= (x * x);
+		n += 2;
+	}
+	return (2 * result);
 }

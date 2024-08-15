@@ -6,12 +6,11 @@
 /*   By: adpedrer <adpedrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:48:44 by adpedrer          #+#    #+#             */
-/*   Updated: 2024/07/25 23:39:14 by adpedrer         ###   ########.fr       */
+/*   Updated: 2024/08/15 00:51:01 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "ft_printf/ft_printf.h"
 
 void push(t_stack **a, t_stack **b, int type_move)
 {

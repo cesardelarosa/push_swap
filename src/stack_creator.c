@@ -6,13 +6,21 @@
 /*   By: adpedrer <adpedrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 23:32:36 by adpedrer          #+#    #+#             */
-/*   Updated: 2024/07/25 23:32:44 by adpedrer         ###   ########.fr       */
+/*   Updated: 2024/08/15 03:01:48 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <limits.h>
 #include "push_swap.h"
+
+void stacks_initiator(t_stack ***a, t_stack ***b)
+{
+	*a = (t_stack **)malloc(sizeof(t_stack *));
+	*b = (t_stack **)malloc(sizeof(t_stack *));
+	if (!*a || !*b)
+		error(2);
+	**a = NULL;
+	**b = NULL;
+}
 
 int count_numbers(int argc, char **argv)
 {
@@ -28,7 +36,7 @@ int count_numbers(int argc, char **argv)
 		result = ft_split(argv[i], ' ');
 		if (!result)
 		{
-			fprintf(stderr, "Error: fallo en ft_split durante count_numbers\n");
+			//fprintf(stderr, "Error: fallo en ft_split durante count_numbers\n");
 			error(2);
 		}
 		j = 0;
@@ -40,6 +48,8 @@ int count_numbers(int argc, char **argv)
 		free_split(result);
 		i++;
 	}
+	if (count == 0)
+		error(2);
 	return count;
 }
 
@@ -50,7 +60,7 @@ void allocate_combined_args(char ***combined_args, int num_numbers)
 	*combined_args = (char **)malloc((num_numbers + 1) * sizeof(char *));
 	if (!(*combined_args))
 	{
-		fprintf(stderr, "Error: fallo en la asignación de memoria para combined_args\n");
+		//fprintf(stderr, "Error: fallo en la asignación de memoria para combined_args\n");
 		error(2);
 	}
 
@@ -74,7 +84,7 @@ void handle_split_result(char **combined_args, char **result, int *index)
 		{
 			free_split(result);
 			free_split(combined_args);
-			fprintf(stderr, "Error: fallo en strdup\n");
+			//fprintf(stderr, "Error: fallo en strdup\n");
 			error(2);
 		}
 		(*index)++;
@@ -96,7 +106,7 @@ void fill_combined_args(char **combined_args, int argc, char **argv)
 		if (!result)
 		{
 			free_split(combined_args);
-			fprintf(stderr, "Error: fallo en ft_split\n");
+			//fprintf(stderr, "Error: fallo en ft_split\n");
 			error(2); 
 		}
 		handle_split_result(combined_args, result, &index);
@@ -110,6 +120,8 @@ void stack_creator(t_stack **a, int argc, char **argv)
 	int num_numbers;
 	char **combined_args;
 
+	if (argc < 2 || !argv[1])
+		error(7);
 	num_numbers = count_numbers(argc, argv);
 	allocate_combined_args(&combined_args, num_numbers);
 	fill_combined_args(combined_args, argc, argv);
@@ -147,7 +159,7 @@ void check_duplicates(char **nums)
 		num = atoi_psw(nums[i]);
 		if (num > INT_MAX || num < INT_MIN)
 		{
-			fprintf(stderr, "Error: valor fuera del rango INT_MAX o INT_MIN en check_duplicates\n");
+			//fprintf(stderr, "Error: valor fuera del rango INT_MAX o INT_MIN en check_duplicates\n");
 			error(1);
 		}
 		j = i + 1;
@@ -155,7 +167,7 @@ void check_duplicates(char **nums)
 		{
 			if (num == atoi_psw(nums[j]))
 			{
-				fprintf(stderr, "Error: duplicado encontrado en check_duplicates\n");
+				//fprintf(stderr, "Error: duplicado encontrado en check_duplicates\n");
 				error(3);
 			}
 			j++;
@@ -175,7 +187,7 @@ void stack_creator_add(t_stack **a, char **nums)
 		temp = ft_lstnew_psw(atoi_psw(nums[i]));
 		if (!temp)
 		{
-			fprintf(stderr, "Error: fallo en ft_lstnew_psw en stack_creator_add\n");
+			//fprintf(stderr, "Error: fallo en ft_lstnew_psw en stack_creator_add\n");
 			error(2);
 		}
 		ft_lstadd_back_psw(a, temp);
@@ -200,6 +212,8 @@ long atoi_psw(char *str)
 			sign = -1;
 		str++;
 	}
+	if (*str == '\0')
+		error(1);
 	while (*str >= '0' && *str <= '9')
 	{
 		num = num * 10 + (*str - '0');
@@ -207,7 +221,7 @@ long atoi_psw(char *str)
 	}
 	if (*str != '\0')
 		error(1);
-	if (num > INT_MAX || num < INT_MIN)
+	if (num * sign > INT_MAX || num * sign < INT_MIN)
 		error(1);
 	return (num * sign);
 }

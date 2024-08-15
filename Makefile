@@ -2,12 +2,12 @@ NAME = push_swap
 NAME_BONUS = checker
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lm -g3 -fsanitize=address -fsanitize=undefined
+CFLAGS = -Wall -Wextra -Werror  -g3 -fsanitize=address -fsanitize=undefined
 
 SRC_DIR = src
 SRC_BONUS_DIR = src_bonus
 
-SRC_FILES = push_swap.c ft_lst.c  prints.c stack_creator.c moves.c utils.c order.c
+SRC_FILES = push_swap.c ft_lst.c  prints.c stack_creator.c moves.c utils.c quick_to_b.c turkish_to_a.c
 SRC_BONUS_FILES = checker.c
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
