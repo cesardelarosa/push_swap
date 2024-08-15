@@ -3,11 +3,11 @@ LIBFT = libft/libft.a
 PRINTF = ft_printf/libftprintf.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-INCLUDE = -I inc
+INCLUDE = -I inc -I libft -I ft_printf
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = $(SRC_DIR)/main.c $(SRC_DIR)/operations.c $(SRC_DIR)/order.c
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRC = main.c read.c quicksort.c turkish.c operations.c utils.c
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 

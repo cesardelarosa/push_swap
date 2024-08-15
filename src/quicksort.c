@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quick_to_b.c                                       :+:      :+:    :+:   */
+/*   quicksort.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 03:03:48 by cde-la-r          #+#    #+#             */
-/*   Updated: 2024/08/15 03:03:49 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:53:15 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include <stdlib.h>
+#include "stacks.h"
+#include "operations.h"
 
 void	ft_swap_numbers(int *a, int *b)
 {
@@ -58,11 +60,11 @@ int	quickselect(int arr[], int left, int right, int k)
 		return (quickselect(arr, i + 1, right, k));
 }
 
-int	*stack_to_array(t_stack *stack, int *size)
+int	*stack_to_array(t_list *stack, int *size)
 {
 	int		*arr;
 	int		i;
-	t_stack	*tmp;
+	t_list	*tmp;
 
 	*size = elements(&stack);
 	if (*size == 0)

@@ -6,9 +6,18 @@
 /*   By: cde-la-r <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 04:50:59 by cde-la-r          #+#    #+#             */
-/*   Updated: 2024/08/15 04:51:07 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:27:37 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "stacks.h"
+#include "libft.h"
+
+void	ft_error(void)
+{
+	ft_printf("Error\n");
+	exit(1);
+}
 
 void	read_args(t_list **a, char **numbers)
 {
