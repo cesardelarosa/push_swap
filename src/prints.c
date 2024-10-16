@@ -6,11 +6,12 @@
 /*   By: adpedrer <adpedrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:49:21 by adpedrer          #+#    #+#             */
-/*   Updated: 2024/08/15 00:47:42 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:53:01 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 
 void	printf_near(t_stack *stack, int bool)
 {
