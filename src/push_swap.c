@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-la-r <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 02:54:20 by cde-la-r          #+#    #+#             */
-/*   Updated: 2024/08/15 03:04:25 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/11 19:54:43 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/11 19:54:44 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 
 	stacks = malloc(sizeof(t_stacks));
 	if (!stacks || argc < 2 || !*argv[1])
-		error(2);
+		error();
 	stacks_initiator(&(stacks->stack[0]), &(stacks->stack[1]));
 	stack_creator(stacks->stack[0], argc, argv);
 	a_to_b(stacks);
@@ -82,34 +82,8 @@ void	b_to_a(t_stacks *stacks)
 	print(op, stacks);
 }
 
-void	error(int i)
+void	error(void)
 {
-	i = 2 * i;
 	ft_putstr_fd("Error\n", STDERR_FILENO);
 	exit(1);
 }
-
-/*
-void	error(int i)
-{
-	if (i == 1)
-	{
-		ft_putstr_fd("Error ATOI\n", STDERR_FILENO);
-		exit(1);
-	}
-	else if (i == 2)
-	{
-		ft_putstr_fd("Error listas\n", STDERR_FILENO);
-		exit(1);
-	}
-	else if (i == 3)
-	{
-		ft_putstr_fd("Error duplicado\n", STDERR_FILENO);
-		exit(1);
-	}
-	else if (i == 5)
-	{
-		ft_putstr_fd("No estan en orden\n", STDERR_FILENO);
-		exit(1);
-	}
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quick_to_b.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cde-la-r <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 03:03:48 by cde-la-r          #+#    #+#             */
-/*   Updated: 2024/08/15 03:03:49 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/11 19:54:51 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/11 19:54:52 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	*stack_to_array(t_stack *stack, int *size)
 		return (NULL);
 	arr = (int *)malloc((*size) * sizeof(int));
 	if (!arr)
-		error(0);
+		error();
 	tmp = stack;
 	i = 0;
 	while (i < *size)

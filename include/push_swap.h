@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adpedrer <adpedrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 18:44:47 by adpedrer          #+#    #+#             */
-/*   Updated: 2024/08/15 02:34:24 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/11 19:56:21 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/11 19:56:57 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define MOVE_SA 1
 # define MOVE_SB 2
-# define MOVE_SS 12//
+# define MOVE_SS 12
 # define MOVE_RA 3
 # define MOVE_RB 4
 # define MOVE_RR 34
@@ -84,7 +84,7 @@ t_stack	*ft_lstlast_psw(t_stack *lst);
 void	ft_lstadd_front_psw(t_stack **lst, t_stack *new);
 t_stack	*ft_lstnew_psw(long content);
 void	ft_lstclear_psw(t_stack **lst);
-void	error(int i);
+void	error(void);
 long	atoi_psw(char *str);
 void	check_duplicates(char **nums);
 void	print_stack(t_stack *head);
