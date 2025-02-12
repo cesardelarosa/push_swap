@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror  -g3 -fsanitize=address -fsanitize=undefined -I i
 SRC_DIR = src
 SRC_BONUS_DIR = src_bonus
 
-SRC_FILES = push_swap.c ft_lst.c stack_creator.c moves.c utils.c quick_to_b.c turkish_to_a.c
+SRC_FILES = main.c ft_lst.c parser.c moves.c a_to_b.c b_to_a.c
 SRC_BONUS_FILES = checker.c
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))

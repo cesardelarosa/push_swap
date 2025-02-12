@@ -1,16 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   turkish_to_a.c                                     :+:      :+:    :+:   */
+/*   b_to_a.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:55:13 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/11 19:55:14 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:40:21 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "moves.h"
+#include "libft.h"
+
+int		location(int n, t_stack **s);
+int		operations(t_operations *op);
+void	optimize(t_operations *op, int n[2]);
+void	print(t_operations op, t_stacks *stacks);
+void	rotations(t_operations *op, t_stacks *stacks);
+
+void	b_to_a(t_stacks *stacks)
+{
+	t_operations	op;
+	t_stack			*tmp;
+
+	while (stacks->n[1])
+	{
+		rotations(&op, stacks);
+		print(op, stacks);
+		push(stacks, MOVE_PA);
+	}
+	op = (t_operations){0, 0, 0};
+	tmp = *(stacks->stack[0]);
+	while (!(tmp->num < tmp->next->num && tmp->num < tmp->prev->num)
+		&& op.ra++ != stacks->n[0] - 1)
+		tmp = tmp->next;
+	operations(&op);
+	optimize(&op, stacks->n);
+	print(op, stacks);
+}
 
 int	location(int n, t_stack **s)
 {
@@ -25,7 +53,7 @@ int	location(int n, t_stack **s)
 	i = 0;
 	ext = tmp->num;
 	ext_pos = 0;
-	while (!(n <= tmp->num && n >= tmp->prev->num) \
+	while (!(n <= tmp->num && n >= tmp->prev->num)
 		&& tmp->num != (*s)->prev->num)
 	{
 		tmp = tmp->next;
@@ -44,9 +72,9 @@ int	location(int n, t_stack **s)
 int	operations(t_operations *op)
 {
 	if (op->ra * op->rb > 0)
-		op->n = max(abs(op->ra), abs(op->rb));
+		op->n = ft_max(abs(op->ra), ft_abs(op->rb));
 	else
-		op->n = abs(op->ra) + abs(op->rb);
+		op->n = ft_abs(op->ra) + ft_abs(op->rb);
 	return (op->n);
 }
 
@@ -74,24 +102,24 @@ void	print(t_operations op, t_stacks *stacks)
 {
 	while (op.ra > 0 && op.rb > 0)
 	{
-		rotate(stacks->stack[0], stacks->stack[1], MOVE_RR);
+		rotate(stacks, MOVE_RR);
 		op.ra--;
 		op.rb--;
 	}
 	while (op.ra < 0 && op.rb < 0)
 	{
-		reverse_rotate(stacks->stack[0], stacks->stack[1], MOVE_RRR);
+		reverse_rotate(stacks, MOVE_RRR);
 		op.ra++;
 		op.rb++;
 	}
 	while (op.ra-- > 0)
-		rotate(stacks->stack[0], stacks->stack[1], MOVE_RA);
+		rotate(stacks, MOVE_RA);
 	while (op.rb-- > 0)
-		rotate(stacks->stack[0], stacks->stack[1], MOVE_RB);
+		rotate(stacks, MOVE_RB);
 	while (++op.ra < 0)
-		reverse_rotate(stacks->stack[0], stacks->stack[1], MOVE_RRA);
+		reverse_rotate(stacks, MOVE_RRA);
 	while (++op.rb < 0)
-		reverse_rotate(stacks->stack[0], stacks->stack[1], MOVE_RRB);
+		reverse_rotate(stacks, MOVE_RRB);
 }
 
 void	rotations(t_operations *op, t_stacks *stacks)

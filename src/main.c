@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:56:21 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/12 10:22:12 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/11 19:54:43 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/12 00:04:24 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#include "push_swap.h"
 
-# include "libft.h"
-# include <limits.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "stacks.h"
+int	main(int argc, char **argv)
+{
+	t_stacks	*stacks;
 
-void					a_to_b(t_stacks *stacks);
-void					b_to_a(t_stacks *stacks);
-t_stacks				*parser(int argc, char **argv);
-void					free_stacks(t_stacks *stacks);
-
-#endif
+	stacks = parser(argc, argv);
+	a_to_b(stacks);
+	b_to_a(stacks);
+	free_stacks(stacks);
+	return (0);
+}

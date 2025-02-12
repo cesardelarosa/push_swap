@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   stacks.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:56:21 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/12 10:22:12 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/12 09:46:35 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#ifndef STACKS_H
+# define STACKS_H
 
-# include "libft.h"
-# include <limits.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "stacks.h"
+typedef struct s_operations
+{
+	int					ra;
+	int					rb;
+	int					n;
+}						t_operations;
 
-void					a_to_b(t_stacks *stacks);
-void					b_to_a(t_stacks *stacks);
-t_stacks				*parser(int argc, char **argv);
-void					free_stacks(t_stacks *stacks);
+typedef struct s_stack	t_stack;
+
+struct					s_stack
+{
+	t_stack				*prev;
+	t_stack				*next;
+	int					num;
+};
+
+typedef struct s_stacks
+{
+	t_stack				**stack[2];
+	int					n[2];
+}						t_stacks;
+
+void					ft_lstadd_back_psw(t_stack **lst, t_stack *new);
+t_stack					*ft_lstlast_psw(t_stack *lst);
+void					ft_lstadd_front_psw(t_stack **lst, t_stack *new);
+t_stack					*ft_lstnew_psw(long content);
+void					ft_lstclear_psw(t_stack **lst);
 
 #endif

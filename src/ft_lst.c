@@ -6,11 +6,12 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:53:53 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/11 19:54:03 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/12 10:43:27 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include <stdlib.h>
+#include "stacks.h"
 
 void	ft_lstadd_back_psw(t_stack **lst, t_stack *new)
 {
@@ -89,4 +90,13 @@ void	ft_lstclear_psw(t_stack **lst)
 	}
 	free(head);
 	*lst = NULL;
+}
+
+void	free_stacks(t_stacks *stacks)
+{
+	ft_lstclear_psw(stacks->stack[0]);
+	ft_lstclear_psw(stacks->stack[1]);
+	free(stacks->stack[0]);
+	free(stacks->stack[1]);
+	free(stacks);
 }

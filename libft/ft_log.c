@@ -1,67 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_log.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:55:27 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/11 19:55:33 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/12 09:57:32 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/12 09:57:46 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "push_swap.h"
-
-int	elements(t_stack **a)
-{
-	int		n;
-	int		first;
-	t_stack	*tmp;
-
-	tmp = *a;
-	if (tmp == 0x0)
-		return (0);
-	n = 1;
-	first = tmp->num;
-	while (first != tmp->next->num)
-	{
-		tmp = tmp->next;
-		n++;
-	}
-	return (n);
-}
-
-int	check_order(t_stack **a)
-{
-	int		count;
-	t_stack	*tmp;
-
-	tmp = *a;
-	if (tmp == tmp->next)
-		return (1);
-	count = 0;
-	while (count == 0 || tmp != *a)
-	{
-		if (tmp->num > tmp->next->num)
-			count++;
-		tmp = tmp->next;
-	}
-	return (count < 2);
-}
-
-int	abs(int n)
-{
-	if (n < 0)
-		return (-n);
-	return (n);
-}
-
-int	max(int a, int b)
-{
-	if (b > a)
-		return (b);
-	return (a);
-}
 
 double	ft_log(double x)
 {

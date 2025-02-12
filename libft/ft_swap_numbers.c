@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_swap_numbers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:56:21 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/12 10:22:12 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/12 11:32:17 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/12 11:32:25 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+void	ft_swap_numbers(int *a, int *b)
+{
+	int	tmp;
 
-# include "libft.h"
-# include <limits.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "stacks.h"
-
-void					a_to_b(t_stacks *stacks);
-void					b_to_a(t_stacks *stacks);
-t_stacks				*parser(int argc, char **argv);
-void					free_stacks(t_stacks *stacks);
-
-#endif
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}

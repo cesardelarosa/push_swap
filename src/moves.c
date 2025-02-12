@@ -6,28 +6,17 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:54:22 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/11 19:54:24 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:26:19 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
+#include "moves.h"
 
-void	push(t_stack **a, t_stack **b, int type_move)
+void	push_node(t_stack **src, t_stack **dest)
 {
-	if (MOVE_PA == type_move)
-	{
-		push_node(b, a, NULL);
-		ft_putstr(PA);
-	}
-	else if (MOVE_PB == type_move)
-	{
-		push_node(a, b, NULL);
-		ft_putstr(PB);
-	}
-}
+	t_stack	*tmp;
 
-void	push_node(t_stack **src, t_stack **dest, t_stack *tmp)
-{
 	if (src && *src)
 	{
 		tmp = *src;
@@ -55,23 +44,21 @@ void	push_node(t_stack **src, t_stack **dest, t_stack *tmp)
 	}
 }
 
-void	reverse_rotate(t_stack **a, t_stack **b, int type_move)
+void	push(t_stacks *stacks, int type_move)
 {
-	if (MOVE_RRA == type_move)
+	if (MOVE_PA == type_move)
 	{
-		reverse_rotate_node(a);
-		ft_putstr(RRA);
+		push_node(stacks->stack[1], stacks->stack[0]);
+		stacks->n[0]++;
+		stacks->n[1]--;
+		ft_putstr(PA);
 	}
-	else if (MOVE_RRB == type_move)
+	else if (MOVE_PB == type_move)
 	{
-		reverse_rotate_node(b);
-		ft_putstr(RRB);
-	}
-	else if (MOVE_RRR == type_move)
-	{
-		reverse_rotate_node(a);
-		reverse_rotate_node(b);
-		ft_putstr(RRR);
+		push_node(stacks->stack[0], stacks->stack[1]);
+		stacks->n[0]--;
+		stacks->n[1]++;
+		ft_putstr(PB);
 	}
 }
 
@@ -83,23 +70,23 @@ void	reverse_rotate_node(t_stack **stack)
 	}
 }
 
-void	rotate(t_stack **a, t_stack **b, int type_move)
+void	reverse_rotate(t_stacks *stacks, int type_move)
 {
-	if (MOVE_RA == type_move)
+	if (MOVE_RRA == type_move)
 	{
-		rotate_node(a);
-		ft_putstr(RA);
+		reverse_rotate_node(stacks->stack[0]);
+		ft_putstr(RRA);
 	}
-	else if (MOVE_RB == type_move)
+	else if (MOVE_RRB == type_move)
 	{
-		rotate_node(b);
-		ft_putstr(RB);
+		reverse_rotate_node(stacks->stack[1]);
+		ft_putstr(RRB);
 	}
-	else if (MOVE_RR == type_move)
+	else if (MOVE_RRR == type_move)
 	{
-		rotate_node(a);
-		rotate_node(b);
-		ft_putstr(RR);
+		reverse_rotate_node(stacks->stack[0]);
+		reverse_rotate_node(stacks->stack[1]);
+		ft_putstr(RRR);
 	}
 }
 
@@ -111,23 +98,23 @@ void	rotate_node(t_stack **stack)
 	}
 }
 
-void	swap(t_stack **a, t_stack **b, int type_move)
+void	rotate(t_stacks *stacks, int type_move)
 {
-	if (MOVE_SA == type_move)
+	if (MOVE_RA == type_move)
 	{
-		swap_node(a);
-		ft_putstr(SA);
+		rotate_node(stacks->stack[0]);
+		ft_putstr(RA);
 	}
-	else if (MOVE_SB == type_move)
+	else if (MOVE_RB == type_move)
 	{
-		swap_node(b);
-		ft_putstr(SB);
+		rotate_node(stacks->stack[1]);
+		ft_putstr(RB);
 	}
-	else if (MOVE_SS == type_move)
+	else if (MOVE_RR == type_move)
 	{
-		swap_node(a);
-		swap_node(b);
-		ft_putstr(SS);
+		rotate_node(stacks->stack[0]);
+		rotate_node(stacks->stack[1]);
+		ft_putstr(RR);
 	}
 }
 
@@ -149,5 +136,25 @@ void	swap_node(t_stack **stack)
 			first->prev->next = second;
 		first->prev = second;
 		*stack = second;
+	}
+}
+
+void	swap(t_stacks *stacks, int type_move)
+{
+	if (MOVE_SA == type_move)
+	{
+		swap_node(stacks->stack[0]);
+		ft_putstr(SA);
+	}
+	else if (MOVE_SB == type_move)
+	{
+		swap_node(stacks->stack[1]);
+		ft_putstr(SB);
+	}
+	else if (MOVE_SS == type_move)
+	{
+		swap_node(stacks->stack[0]);
+		swap_node(stacks->stack[1]);
+		ft_putstr(SS);
 	}
 }
