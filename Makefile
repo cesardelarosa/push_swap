@@ -1,19 +1,28 @@
 NAME = push_swap
 NAME_BONUS = checker
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror  -g3 -fsanitize=address -fsanitize=undefined -I include -I libft
+RED=\033[0;31m
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+CYAN=\033[0;36m
+MAGENTA=\033[0;35m
+RESET=\033[0m
 
+INC_DIR = include 
+LIBFT_DIR = libft
 SRC_DIR = src
-SRC_BONUS_DIR = src_bonus
 
-SRC_FILES = main.c ft_lst.c parser.c moves.c a_to_b.c b_to_a.c
-SRC_BONUS_FILES = checker.c
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I $(INC_DIR) -I $(LIBFT_DIR)
+SANITIZER_FLAGS = -g3 -fsanitize=address -fsanitize=undefined
+
+SRC_FILES = main.c parser.c a_to_b.c b_to_a.c moves/push.c moves/swap.c moves/rotate.c moves/reverse_rotate.c utils.c
+SRC_BONUS_FILES = bonus/checker.c parser.c moves/push.c moves/swap.c moves/rotate.c moves/reverse_rotate.c utils.c
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
-SRC_BONUS = $(addprefix $(SRC_BONUS_DIR)/, $(SRC_BONUS_FILES))
+SRC_BONUS = $(addprefix $(SRC_DIR)/, $(SRC_BONUS_FILES))
 
-LIBFTA = -L./libft -lft
+LIBFTA = -L $(LIBFT_DIR) -lft
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -22,35 +31,51 @@ OBJ_BONUS = $(addprefix $(OBJ_DIR)/, $(SRC_BONUS_FILES:.c=.o))
 RM = rm -rf
 
 all: $(NAME)
+	@echo -e "$(GREEN)Proyecto $(NAME) compilado correctamente.$(RESET)"
 
-bonus:$(NAME_BONUS)
-
-lft:
-	make complete -C ./libft
-	
 $(NAME): lft $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) $(LIBFTA) -o $(NAME)
+	@echo -e "$(GREEN)Linkeando $(NAME)...$(RESET)"
+	$(CC) $(OBJ) $(CFLAGS) $(LIBFTA) $(if $(findstring $(SANITIZER_FLAGS),$(CFLAGS)),$(SANITIZER_FLAGS),) -o $(NAME)
+	@echo -e "$(GREEN)$(NAME) generado.$(RESET)"
+
+bonus: $(NAME_BONUS)
+	@echo -e "$(GREEN)Proyecto $(NAME_BONUS) compilado correctamente.$(RESET)"
 
 $(NAME_BONUS): lft $(OBJ_BONUS)
-	$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBFTA) -o $(NAME_BONUS)
+	@echo -e "$(GREEN)Linkeando $(NAME_BONUS)...$(RESET)"
+	$(CC) $(OBJ_BONUS) $(CFLAGS) $(LIBFTA) $(if $(findstring $(SANITIZER_FLAGS),$(CFLAGS)),$(SANITIZER_FLAGS),) -o $(NAME_BONUS)
+	@echo -e "$(GREEN)$(NAME_BONUS) generado.$(RESET)"
+
+lft:
+	@echo -e "$(CYAN)Compilando libft...$(RESET)"
+	$(MAKE) complete -C $(LIBFT_DIR)
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)/moves
+	mkdir -p $(OBJ_DIR)/bonus
+	@echo -e "$(CYAN)Directorio $(OBJ_DIR) creado.$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_BONUS_DIR)/%.c | $(OBJ_DIR)
+	@echo -e "$(YELLOW)Compilando $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	@echo -e "$(RED)Limpiando archivos objeto...$(RESET)"
 	$(RM) $(OBJ_DIR)
-	make -C libft clean
+	$(MAKE) -C $(LIBFT_DIR) clean
+	@echo -e "$(RED)Archivos objeto eliminados.$(RESET)"
 
 fclean: clean
-	$(RM) $(NAME)
-	make -C libft fclean
+	@echo -e "$(RED)Eliminando ejecutables...$(RESET)"
+	$(RM) $(NAME) $(NAME_BONUS)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	@echo -e "$(RED)Ejecutables eliminados.$(RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus e make_libft
+#check: CFLAGS += $(SANITIZER_FLAGS)
+#check: re
+#	@echo -e "$(MAGENTA)Ejecutando norminette...$(RESET)"
+#	norminette $(INC_DIR) $(SRC_DIR)
+
+.PHONY: all bonus clean fclean re lft check

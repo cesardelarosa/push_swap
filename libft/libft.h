@@ -6,7 +6,7 @@
 /*   By: cde-la-r <cde-la-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 12:06:10 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/12 11:32:42 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/13 19:57:40 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_strnstr(const char *str, const char *substr, size_t n);
 int					ft_atoi(const char *nptr);
+long				ft_atol(const char *nptr);
 void				*ft_calloc(size_t n, size_t s);
 char				*ft_strdup(const char *s);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
@@ -67,6 +68,8 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+t_list				*ft_lstcpy(t_list *original);
+void				ft_lstrm_node(t_list **list, t_list *target);
 char				*get_next_line(int fd);
 int					ft_putchar(char c);
 int					ft_putstr(const char *str);
@@ -79,7 +82,7 @@ char				**ft_free_split(char **result);
 int					ft_max(int a, int b);
 double				ft_log(double x);
 int					ft_abs(int n);
-void				ft_error(void);
+int					ft_strcmp(char *s1, char *s2);
 void				ft_swap_numbers(int *a, int *b);
 
 #endif

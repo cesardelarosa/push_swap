@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstrm_node_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:54:43 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 19:00:55 by cesi             ###   ########.fr       */
+/*   Created: 2025/02/13 12:31:40 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/13 12:31:42 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+void	ft_lstrm_node(t_list **list, t_list *target)
 {
-	t_stacks	*stacks;
+	t_list	*prev;
+	t_list	*current;
 
-	stacks = parser(argc, argv);
-	a_to_b(stacks);
-	b_to_a(stacks);
-	free_stacks(stacks);
-	return (0);
+	prev = NULL;
+	current = *list;
+	while (current)
+	{
+		if (current == target)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*list = current->next;
+			ft_lstdelone(current, free);
+			return ;
+		}
+		prev = current;
+		current = current->next;
+	}
 }

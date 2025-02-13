@@ -1,24 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:54:43 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 19:00:55 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/13 20:01:38 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "push_swap.h"
+#include <stdlib.h>
 
-int	main(int argc, char **argv)
+void	ft_error(void)
 {
-	t_stacks	*stacks;
+	write(2, "Error\n", 6);
+	exit(1);
+}
 
-	stacks = parser(argc, argv);
-	a_to_b(stacks);
-	b_to_a(stacks);
-	free_stacks(stacks);
-	return (0);
+int	check_order(t_list *a)
+{
+	t_list	*tmp;
+
+	if (!a || !(a->next))
+		return (1);
+	tmp = a;
+	while (tmp && tmp->next)
+	{
+		if (*(int *)(tmp->content) > *(int *)(tmp->next->content))
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+void	free_stacks(t_stacks *stacks)
+{
+	if (!stacks)
+		return ;
+	ft_lstclear(&stacks->a, free);
+	ft_lstclear(&stacks->b, free);
+	free(stacks);
 }
