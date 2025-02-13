@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:14:10 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 19:56:11 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/13 23:59:29 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,27 @@ static void	remove_newline(char *instr)
 
 void	execute_instruction(t_stacks *stacks, char *instr)
 {
-	if (!ft_strcmp(instr, "sa"))
+	if (!ft_strncmp(instr, "sa", 3))
 		silent_swap(stacks, MOVE_SA);
-	else if (!ft_strcmp(instr, "sb"))
+	else if (!ft_strncmp(instr, "sb", 3))
 		silent_swap(stacks, MOVE_SB);
-	else if (!ft_strcmp(instr, "ss"))
+	else if (!ft_strncmp(instr, "ss", 3))
 		silent_swap(stacks, MOVE_SS);
-	else if (!ft_strcmp(instr, "pa"))
+	else if (!ft_strncmp(instr, "pa", 3))
 		silent_push(stacks, MOVE_PA);
-	else if (!ft_strcmp(instr, "pb"))
+	else if (!ft_strncmp(instr, "pb", 3))
 		silent_push(stacks, MOVE_PB);
-	else if (!ft_strcmp(instr, "ra"))
+	else if (!ft_strncmp(instr, "ra", 3))
 		silent_rotate(stacks, MOVE_RA);
-	else if (!ft_strcmp(instr, "rb"))
+	else if (!ft_strncmp(instr, "rb", 3))
 		silent_rotate(stacks, MOVE_RB);
-	else if (!ft_strcmp(instr, "rr"))
+	else if (!ft_strncmp(instr, "rr", 3))
 		silent_rotate(stacks, MOVE_RR);
-	else if (!ft_strcmp(instr, "rra"))
+	else if (!ft_strncmp(instr, "rra", 4))
 		silent_reverse_rotate(stacks, MOVE_RRA);
-	else if (!ft_strcmp(instr, "rrb"))
+	else if (!ft_strncmp(instr, "rrb", 4))
 		silent_reverse_rotate(stacks, MOVE_RRB);
-	else if (!ft_strcmp(instr, "rrr"))
+	else if (!ft_strncmp(instr, "rrr", 4))
 		silent_reverse_rotate(stacks, MOVE_RRR);
 	else
 		ft_error();
@@ -54,8 +54,6 @@ int	main(int argc, char **argv)
 	t_stacks	*stacks;
 	char		*instr;
 
-	if (argc < 2)
-		return (0);
 	stacks = parser(argc, argv);
 	instr = get_next_line(0);
 	while (instr)

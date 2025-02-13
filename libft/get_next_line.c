@@ -6,7 +6,7 @@
 /*   By: cde-la-r <cde-la-r@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 04:50:34 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 19:13:55 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/13 23:48:41 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <unistd.h>
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 4242
 #endif
 
 #ifndef OPEN_MAX
@@ -54,9 +54,9 @@ char	*save_tail(char *line)
 	char	*tail;
 
 	next = ft_strchr(line, '\n');
-	if (!next++)
+	if (!next)
 		return (NULL);
-	tail = ft_strdup(next);
+	tail = ft_strdup(next + 1);
 	*next = '\0';
 	return (tail);
 }
