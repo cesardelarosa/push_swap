@@ -16,7 +16,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I $(INC_DIR) -I $(LIBFT_DIR)
 SANITIZER_FLAGS = -g3 -fsanitize=address -fsanitize=undefined
 
-SRC_FILES = main.c parser.c a_to_b.c b_to_a.c moves/push.c moves/swap.c moves/rotate.c moves/reverse_rotate.c utils.c
+SRC_FILES = push_swap.c parser.c a_to_b.c b_to_a.c moves/push.c moves/swap.c moves/rotate.c moves/reverse_rotate.c utils.c
 SRC_BONUS_FILES = bonus/checker.c parser.c moves/push.c moves/swap.c moves/rotate.c moves/reverse_rotate.c utils.c
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
