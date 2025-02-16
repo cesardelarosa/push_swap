@@ -5,209 +5,161 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/12 15:00:00 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 09:29:40 by cesi             ###   ########.fr       */
+/*   Created: 2025/02/16 18:47:56 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/16 18:58:14 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 #include "moves.h"
-#include "stacks.h"
+#include "libft.h"
 #include <limits.h>
 
-/*
-** get_target_index:
-** Calcula el índice en la pila A en el que debe insertarse el número 'n'.
-** Se recorre A “como si fuera circular”: se obtiene el último nodo y se
-** compara el valor actual con el anterior. Si 'n' encaja entre ambos se
-** devuelve ese índice; si no, se devuelve el índice donde se encuentra el
-** valor mínimo.
-*/
-static int	get_target_index(int n, t_list *a)
+static t_list	*get_node_at(t_list *lst, int index)
 {
-	int		len;
+	int		i;
+	t_list	*current;
+
+	i = 0;
+	current = lst;
+	while (current && i < index)
+	{
+		current = current->next;
+		i++;
+	}
+	return (current);
+}
+
+static int	get_prev_val(t_list *a, int index, int n_a)
+{
+	t_list	*prev;
+
+	prev = get_node_at(a, (index - 1 + n_a) % n_a);
+	return (*(int *)(prev->content));
+}
+
+static int	location(int n, t_list *a, int n_a)
+{
 	int		i;
 	int		ext;
-	int		ext_idx;
-	t_list	*last;
-	t_list	*prev;
-	t_list	*curr;
-	int		curr_val;
-	int		prev_val;
+	int		ext_pos;
+	t_list	*current;
 
-	len = ft_lstsize(a);
-	last = ft_lstlast(a);
-	ext = *(int *)(a->content);
-	ext_idx = 0;
+	if (!a)
+		return (0);
 	i = 0;
-	prev = last;
-	curr = a;
-	while (i < len)
+	current = a;
+	ext = *(int *)(current->content);
+	ext_pos = 0;
+	while (i < n_a)
 	{
-		curr_val = *(int *)(curr->content);
-		prev_val = *(int *)(prev->content);
-		if (n <= curr_val && n >= prev_val)
+		if (n <= *(int *)(current->content) && n >= get_prev_val(a, i, n_a))
 			return (i);
-		if (curr_val < ext)
+		if (*(int *)(current->content) < ext)
 		{
-			ext = curr_val;
-			ext_idx = i;
+			ext = *(int *)(current->content);
+			ext_pos = i;
 		}
-		prev = curr;
-		curr = curr->next;
 		i++;
+		current = current->next;
 	}
-	return (ext_idx);
+	return (ext_pos);
 }
 
-/*
-** get_rotation:
-** Dado un índice 'pos' y el tamaño de la pila 'size', determina el número
-** mínimo de movimientos (positivo para rotate, negativo para reverse_rotate)
-** para llevar el elemento de la posición 'pos' a la cima.
-*/
-static int	get_rotation(int pos, int size)
+static int	operations(t_operations *op)
 {
-	if (pos <= size / 2)
-		return (pos);
-	return (pos - size);
+	int	abs_ra;
+	int	abs_rb;
+
+	abs_ra = ft_abs(op->ra);
+	abs_rb = ft_abs(op->rb);
+	if (op->ra * op->rb > 0)
+		op->n = ft_max(abs_ra, abs_rb);
+	else
+		op->n = abs_ra + abs_rb;
+	return (op->n);
 }
 
-/*
-** combined_cost:
-** Calcula el costo total de dos rotaciones (ra y rb) aprovechando que si ambas
-** rotaciones van en la misma dirección se pueden hacer simultáneas (usando rr o rrr)
-** y el costo es el máximo; si van en direcciones contrarias se suman.
-*/
-static int	combined_cost(int ra, int rb)
+static void	optimize(t_operations *op, int n_a, int n_b)
 {
-	if ((ra >= 0 && rb >= 0) || (ra < 0 && rb < 0))
-		return (ft_max(ft_abs(ra), ft_abs(rb)));
-	return (ft_abs(ra) + ft_abs(rb));
-}
+	t_operations	var[3];
+	int				i;
 
-/*
-** run_best_rotation_sequence:
-** Recorre la pila B y, para cada elemento, calcula:
-**   - ra: rotaciones en A para insertar el número (usando get_target_index y get_rotation)
-**   - rb: rotaciones en B para llevar el elemento a la cima
-**   - n : costo total de ese movimiento
-** Se elige el movimiento de menor costo y se ejecuta la secuencia de rotaciones
-** aprovechando movimientos conjuntos (rr/rrr).
-*/
-static void	run_best_rotation_sequence(t_stacks *stacks)
-{
-	t_rotations	best;
-	t_rotations	curr;
-	int			i;
-	int			size_a;
-	int			size_b;
-	t_list		*tmp;
-
-	size_a = ft_lstsize(stacks->a);
-	size_b = ft_lstsize(stacks->b);
-	best.n = INT_MAX;
+	var[0].ra = op->ra - n_a;
+	var[0].rb = op->rb;
+	operations(&var[0]);
+	var[1].ra = op->ra;
+	var[1].rb = op->rb - n_b;
+	operations(&var[1]);
+	var[2].ra = op->ra - n_a;
+	var[2].rb = op->rb - n_b;
+	operations(&var[2]);
 	i = 0;
-	tmp = stacks->b;
-	while (tmp)
+	while (i < 3)
 	{
-		curr.ra = get_target_index(*(int *)tmp->content, stacks->a);
-		curr.ra = get_rotation(curr.ra, size_a);
-		curr.rb = get_rotation(i, size_b);
-		curr.n = combined_cost(curr.ra, curr.rb);
-		if (curr.n < best.n)
-			best = curr;
+		if (operations(&var[i]) < operations(op))
+			*op = var[i];
 		i++;
-		tmp = tmp->next;
 	}
-	/* Ejecuta las rotaciones aprovechando movimientos simultáneos */
-	while (best.ra > 0 && best.rb > 0)
+}
+
+static void	print_operations(t_operations op, t_stacks *stacks)
+{
+	while (op.ra > 0 && op.rb > 0)
 	{
 		rotate(stacks, MOVE_RR);
-		best.ra--;
-		best.rb--;
+		op.ra--;
+		op.rb--;
 	}
-	while (best.ra < 0 && best.rb < 0)
+	while (op.ra < 0 && op.rb < 0)
 	{
 		reverse_rotate(stacks, MOVE_RRR);
-		best.ra++;
-		best.rb++;
+		op.ra++;
+		op.rb++;
 	}
-	while (best.ra > 0)
-	{
+	while (op.ra-- > 0)
 		rotate(stacks, MOVE_RA);
-		best.ra--;
-	}
-	while (best.ra < 0)
-	{
-		reverse_rotate(stacks, MOVE_RRA);
-		best.ra++;
-	}
-	while (best.rb > 0)
-	{
+	while (op.rb-- > 0)
 		rotate(stacks, MOVE_RB);
-		best.rb--;
-	}
-	while (best.rb < 0)
-	{
+	while (++op.ra < 0)
+		reverse_rotate(stacks, MOVE_RRA);
+	while (++op.rb < 0)
 		reverse_rotate(stacks, MOVE_RRB);
-		best.rb++;
-	}
 }
 
-/*
-** final_rotations:
-** Una vez que B está vacía, rota la pila A para que el elemento mínimo quede en la cima.
-*/
-static void	final_rotations(t_stacks *stacks)
+static void	rotations(t_operations *op, t_stacks *stacks)
 {
-	int		size_a;
-	int		min_idx;
-	int		i;
-	int		rot;
-	t_list	*tmp;
-	int		min;
+	t_operations	m;
+	int				i;
+	t_list			*tmp;
+	int				b_val;
 
-	size_a = ft_lstsize(stacks->a);
-	min_idx = 0;
 	i = 0;
-	tmp = stacks->a;
-	min = *(int *)tmp->content;
-	while (tmp)
+	tmp = stacks->b;
+	while (i < stacks->n_b)
 	{
-		if (*(int *)tmp->content < min)
-		{
-			min = *(int *)tmp->content;
-			min_idx = i;
-		}
+		b_val = *(int *)(tmp->content);
+		m.ra = location(b_val, stacks->a, stacks->n_a);
+		m.rb = i;
+		optimize(&m, stacks->n_a, stacks->n_b);
+		if (i == 0 || operations(&m) < operations(op))
+			*op = m;
 		i++;
 		tmp = tmp->next;
 	}
-	rot = get_rotation(min_idx, size_a);
-	while (rot > 0)
-	{
-		rotate(stacks, MOVE_RA);
-		rot--;
-	}
-	while (rot < 0)
-	{
-		reverse_rotate(stacks, MOVE_RRA);
-		rot++;
-	}
 }
 
-/*
-** b_to_a:
-** Mientras haya elementos en la pila B, se selecciona y ejecuta la mejor secuencia
-** de rotaciones para trasladar el elemento óptimo a la pila A y se hace push.
-** Cuando B queda vacía se hace un ajuste final en A.
-*/
 void	b_to_a(t_stacks *stacks)
 {
-	while (stacks->b)
+	t_operations	op;
+
+	op.ra = 0;
+	op.rb = 0;
+	op.n = INT_MAX;
+	while (stacks->n_b > 0)
 	{
-		run_best_rotation_sequence(stacks);
+		rotations(&op, stacks);
+		print_operations(op, stacks);
 		push(stacks, MOVE_PA);
 	}
-	final_rotations(stacks);
 }

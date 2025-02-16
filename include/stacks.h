@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:56:21 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 13:38:50 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/16 18:48:27 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,12 @@
 
 # include "libft.h"
 
-typedef struct s_rotations
+typedef struct s_operations
 {
 	int		ra;
 	int		rb;
-	int		rra;
-	int		rrb;
-	int		rr;
-	int		rrr;
 	int		n;
-}			t_rotations;
+}	t_operations;
 
 typedef struct s_stacks
 {
