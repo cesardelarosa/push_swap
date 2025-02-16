@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:47:56 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/16 22:45:16 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/16 23:05:06 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,38 +124,33 @@ static void	print_operations(t_operations op, t_stacks *stacks)
 		reverse_rotate(stacks, MOVE_RRB);
 }
 
-static void	rotations(t_operations *op, t_stacks *stacks)
+static t_operations	rotations(t_stacks *stacks)
 {
-	t_operations	m;
+	t_operations	best_op;
+	t_operations	current_op;
+	t_list			*current;
 	int				i;
-	t_list			*tmp;
-	int				b_val;
 
+	best_op.n = INT_MAX;
 	i = 0;
-	tmp = stacks->b;
+	current = stacks->b;
 	while (i < stacks->n_b)
 	{
-		b_val = *(int *)(tmp->content);
-		m.ra = location(b_val, stacks->a, stacks->n_a);
-		m.rb = i;
-		optimize(&m, stacks->n_a, stacks->n_b);
-		if (i++ == 0 || operations(&m) < operations(op))
-			*op = m;
-		tmp = tmp->next;
+		current_op.ra = location(*(int *)current->content, stacks->a, stacks->n_a);
+		current_op.rb = i;
+		optimize(&current_op, stacks->n_a, stacks->n_b);
+		if (i++ == 0 || operations(&current_op) < operations(&best_op))
+			best_op = current_op;
+		current = current->next;
 	}
+	return (best_op);
 }
 
 void	b_to_a(t_stacks *stacks)
 {
-	t_operations	op;
-
-	op.ra = 0;
-	op.rb = 0;
-	op.n = INT_MAX;
 	while (stacks->n_b > 0)
 	{
-		rotations(&op, stacks);
-		print_operations(op, stacks);
+		print_operations(rotations(stacks), stacks);
 		push(stacks, MOVE_PA);
 	}
 }
