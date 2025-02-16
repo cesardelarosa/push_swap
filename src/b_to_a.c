@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:47:56 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/16 18:58:14 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/16 22:45:16 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ static t_list	*get_node_at(t_list *lst, int index)
 
 	i = 0;
 	current = lst;
-	while (current && i < index)
-	{
+	while (current && i++ < index)
 		current = current->next;
-		i++;
-	}
 	return (current);
 }
 
@@ -142,9 +139,8 @@ static void	rotations(t_operations *op, t_stacks *stacks)
 		m.ra = location(b_val, stacks->a, stacks->n_a);
 		m.rb = i;
 		optimize(&m, stacks->n_a, stacks->n_b);
-		if (i == 0 || operations(&m) < operations(op))
+		if (i++ == 0 || operations(&m) < operations(op))
 			*op = m;
-		i++;
 		tmp = tmp->next;
 	}
 }
