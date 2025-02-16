@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:54:43 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 20:01:38 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/16 19:21:18 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@ void	ft_error(void)
 
 int	check_order(t_list *a)
 {
-	t_list	*tmp;
+	t_list	*current;
+	int		count;
 
-	if (!a || !(a->next))
+	if (!a || !a->next)
 		return (1);
-	tmp = a;
-	while (tmp && tmp->next)
+	count = 0;
+	current = a;
+	while (current->next)
 	{
-		if (*(int *)(tmp->content) > *(int *)(tmp->next->content))
-			return (0);
-		tmp = tmp->next;
+		if (*(int *)(current->content) > *(int *)(current->next->content))
+			count++;
+		current = current->next;
 	}
-	return (1);
+	if (*(int *)(current->content) > *(int *)(a->content))
+		count++;
+	return (count <= 1);
 }
 
 void	free_stacks(t_stacks *stacks)
