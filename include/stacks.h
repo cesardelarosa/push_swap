@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:56:21 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/16 18:48:27 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/17 15:29:51 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 # define STACKS_H
 
 # include "libft.h"
-
-typedef struct s_operations
-{
-	int		ra;
-	int		rb;
-	int		n;
-}	t_operations;
 
 typedef struct s_stacks
 {
