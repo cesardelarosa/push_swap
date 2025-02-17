@@ -5,152 +5,118 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/16 18:47:56 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/16 23:05:06 by cesi             ###   ########.fr       */
+/*   Created: 2025/02/17 13:43:23 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/17 13:43:35 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "moves.h"
-#include "libft.h"
 #include <limits.h>
 
-static t_list	*get_node_at(t_list *lst, int index)
+static int	find_insert_index(t_list *a, int n)
 {
 	int		i;
-	t_list	*current;
+	int		min;
+	int		min_idx;
+	t_list	*curr;
+	int		prev;
 
 	i = 0;
-	current = lst;
-	while (current && i++ < index)
-		current = current->next;
-	return (current);
-}
-
-static int	get_prev_val(t_list *a, int index, int n_a)
-{
-	t_list	*prev;
-
-	prev = get_node_at(a, (index - 1 + n_a) % n_a);
-	return (*(int *)(prev->content));
-}
-
-static int	location(int n, t_list *a, int n_a)
-{
-	int		i;
-	int		ext;
-	int		ext_pos;
-	t_list	*current;
-
-	if (!a)
-		return (0);
-	i = 0;
-	current = a;
-	ext = *(int *)(current->content);
-	ext_pos = 0;
-	while (i < n_a)
+	curr = a;
+	min = *(int *)(curr->content);
+	min_idx = 0;
+	prev = *(int *)(ft_lstlast(a)->content);
+	while (curr)
 	{
-		if (n <= *(int *)(current->content) && n >= get_prev_val(a, i, n_a))
+		if (n < *(int *)(curr->content) && n > prev)
 			return (i);
-		if (*(int *)(current->content) < ext)
+		if (*(int *)(curr->content) < min)
 		{
-			ext = *(int *)(current->content);
-			ext_pos = i;
+			min = *(int *)(curr->content);
+			min_idx = i;
 		}
-		i++;
-		current = current->next;
-	}
-	return (ext_pos);
-}
-
-static int	operations(t_operations *op)
-{
-	int	abs_ra;
-	int	abs_rb;
-
-	abs_ra = ft_abs(op->ra);
-	abs_rb = ft_abs(op->rb);
-	if (op->ra * op->rb > 0)
-		op->n = ft_max(abs_ra, abs_rb);
-	else
-		op->n = abs_ra + abs_rb;
-	return (op->n);
-}
-
-static void	optimize(t_operations *op, int n_a, int n_b)
-{
-	t_operations	var[3];
-	int				i;
-
-	var[0].ra = op->ra - n_a;
-	var[0].rb = op->rb;
-	operations(&var[0]);
-	var[1].ra = op->ra;
-	var[1].rb = op->rb - n_b;
-	operations(&var[1]);
-	var[2].ra = op->ra - n_a;
-	var[2].rb = op->rb - n_b;
-	operations(&var[2]);
-	i = 0;
-	while (i < 3)
-	{
-		if (operations(&var[i]) < operations(op))
-			*op = var[i];
+		prev = *(int *)(curr->content);
+		curr = curr->next;
 		i++;
 	}
+	return (min_idx);
 }
 
-static void	print_operations(t_operations op, t_stacks *stacks)
+static void	calc_best_move(t_stacks *s, int *best_ra, int *best_rb, int *best_total)
 {
-	while (op.ra > 0 && op.rb > 0)
-	{
-		rotate(stacks, MOVE_RR);
-		op.ra--;
-		op.rb--;
-	}
-	while (op.ra < 0 && op.rb < 0)
-	{
-		reverse_rotate(stacks, MOVE_RRR);
-		op.ra++;
-		op.rb++;
-	}
-	while (op.ra-- > 0)
-		rotate(stacks, MOVE_RA);
-	while (op.rb-- > 0)
-		rotate(stacks, MOVE_RB);
-	while (++op.ra < 0)
-		reverse_rotate(stacks, MOVE_RRA);
-	while (++op.rb < 0)
-		reverse_rotate(stacks, MOVE_RRB);
-}
+	int		i;
+	int		ra;
+	int		rb;
+	t_list	*bnode;
+	int		cost;
 
-static t_operations	rotations(t_stacks *stacks)
-{
-	t_operations	best_op;
-	t_operations	current_op;
-	t_list			*current;
-	int				i;
-
-	best_op.n = INT_MAX;
 	i = 0;
-	current = stacks->b;
-	while (i < stacks->n_b)
+	bnode = s->b;
+	*best_total = INT_MAX;
+	while (bnode)
 	{
-		current_op.ra = location(*(int *)current->content, stacks->a, stacks->n_a);
-		current_op.rb = i;
-		optimize(&current_op, stacks->n_a, stacks->n_b);
-		if (i++ == 0 || operations(&current_op) < operations(&best_op))
-			best_op = current_op;
-		current = current->next;
+		ra = find_insert_index(s->a, *(int *)(bnode->content));
+		if (ra > s->n_a / 2)
+			ra = ra - s->n_a;
+		rb = i;
+		if (rb > s->n_b / 2)
+			rb = rb - s->n_b;
+		if (ra * rb > 0)
+		{
+			if (ft_abs(ra) > ft_abs(rb))
+				cost = ft_abs(ra);
+			else
+				cost = ft_abs(rb);
+		}
+		else
+			cost = ft_abs(ra) + ft_abs(rb);
+		if (cost < *best_total)
+		{
+			*best_total = cost;
+			*best_ra = ra;
+			*best_rb = rb;
+		}
+		bnode = bnode->next;
+		i++;
 	}
-	return (best_op);
 }
 
-void	b_to_a(t_stacks *stacks)
+static void	execute_rotations(t_stacks *s, int ra, int rb)
 {
-	while (stacks->n_b > 0)
+	while (ra > 0 && rb > 0)
 	{
-		print_operations(rotations(stacks), stacks);
-		push(stacks, MOVE_PA);
+		rotate(s, MOVE_RR);
+		ra--;
+		rb--;
+	}
+	while (ra < 0 && rb < 0)
+	{
+		reverse_rotate(s, MOVE_RRR);
+		ra++;
+		rb++;
+	}
+	while (ra-- > 0)
+		rotate(s, MOVE_RA);
+	while (++ra < 0)
+		reverse_rotate(s, MOVE_RRA);
+	while (rb-- > 0)
+		rotate(s, MOVE_RB);
+	while (++rb < 0)
+		reverse_rotate(s, MOVE_RRB);
+}
+
+void	b_to_a(t_stacks *s)
+{
+	int	best_ra;
+	int	best_rb;
+	int	best_total;
+
+	while (s->n_b > 0)
+	{
+		best_total = INT_MAX;
+		calc_best_move(s, &best_ra, &best_rb, &best_total);
+		execute_rotations(s, best_ra, best_rb);
+		push(s, MOVE_PA);
 	}
 }
