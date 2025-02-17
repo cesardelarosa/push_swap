@@ -11,12 +11,12 @@ def tests_count(n):
 green_n_points = []
 green_moves_points = []
 
-for n in tqdm(range(1, 20), desc="Processing n values"):
+for n in tqdm(range(1, 500), desc="Processing n values"):
 	t = tests_count(n)
 	moves_ok = []
 	ok_count = 0
 	for _ in tqdm(range(t), desc=f"n = {n}", leave=False):
-		nums = random.sample(range(1, 1001), n)
+		nums = random.sample(range(0, n), n)
 		args = list(map(str, nums))
 		ps = subprocess.run(["./push_swap"] + args, capture_output=True, text=True)
 		moves_output = ps.stdout.strip()

@@ -6,12 +6,12 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:43:23 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/17 13:43:35 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:15:11 by cesi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "moves.h"
+#include "push_swap.h"
 #include <limits.h>
 
 static int	find_insert_index(t_list *a, int n)
@@ -43,7 +43,24 @@ static int	find_insert_index(t_list *a, int n)
 	return (min_idx);
 }
 
-static void	calc_best_move(t_stacks *s, int *best_ra, int *best_rb, int *best_total)
+static void	calc_moves(t_stacks *s, int *ra, int *rb, int *cost)
+{
+	int	abs_ra;
+	int	abs_rb;
+
+	if (*ra > s->n_a / 2)
+		*ra -= s->n_a;
+	if (*rb > s->n_b / 2)
+		*rb -= s->n_b;
+	abs_ra = ft_abs(*ra);
+	abs_rb = ft_abs(*rb);
+	if (*ra * *rb > 0)
+		*cost = ft_max(abs_ra, abs_rb);
+	else
+		*cost = abs_ra + abs_rb;
+}
+
+static void	calc_best_move(t_stacks *s, int *best_ra, int *best_rb, int *best_n)
 {
 	int		i;
 	int		ra;
@@ -53,27 +70,15 @@ static void	calc_best_move(t_stacks *s, int *best_ra, int *best_rb, int *best_to
 
 	i = 0;
 	bnode = s->b;
-	*best_total = INT_MAX;
+	*best_n = INT_MAX;
 	while (bnode)
 	{
 		ra = find_insert_index(s->a, *(int *)(bnode->content));
-		if (ra > s->n_a / 2)
-			ra = ra - s->n_a;
 		rb = i;
-		if (rb > s->n_b / 2)
-			rb = rb - s->n_b;
-		if (ra * rb > 0)
+		calc_moves(s, &ra, &rb, &cost);
+		if (cost < *best_n)
 		{
-			if (ft_abs(ra) > ft_abs(rb))
-				cost = ft_abs(ra);
-			else
-				cost = ft_abs(rb);
-		}
-		else
-			cost = ft_abs(ra) + ft_abs(rb);
-		if (cost < *best_total)
-		{
-			*best_total = cost;
+			*best_n = cost;
 			*best_ra = ra;
 			*best_rb = rb;
 		}
