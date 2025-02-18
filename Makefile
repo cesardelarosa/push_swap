@@ -18,7 +18,6 @@ OBJ_BONUS = $(addprefix $(OBJ_DIR)/, $(SRC_BONUS_FILES:.c=.o) $(SRC_COMMON_FILES
 
 CC      = cc
 CFLAGS  = -Wall -Wextra -Werror -I $(INC_DIR) -I $(LIBFT_DIR)
-SANITIZER_FLAGS = -g3 -fsanitize=address -fsanitize=undefined
 LIBFTA  = -L $(LIBFT_DIR) -lft
 
 RED     = \033[0;31m
@@ -70,9 +69,4 @@ fclean: clean
 
 re: fclean all
 
-check: CFLAGS += $(SANITIZER_FLAGS)
-check: fclean all
-	@echo "$(CYAN)Ejecutando norminette...$(RESET)"
-	norminette $(INC_DIR) $(SRC_DIR) $(LIBFT_DIR)
-
-.PHONY: all bonus clean fclean re check
+.PHONY: all bonus clean fclean re

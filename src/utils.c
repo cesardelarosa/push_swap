@@ -6,19 +6,13 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:54:43 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/16 19:21:18 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/18 12:33:34 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "push_swap.h"
 #include <stdlib.h>
-
-void	ft_error(void)
-{
-	write(2, "Error\n", 6);
-	exit(1);
-}
 
 int	check_order(t_list *a)
 {
@@ -47,4 +41,14 @@ void	free_stacks(t_stacks *stacks)
 	ft_lstclear(&stacks->a, free);
 	ft_lstclear(&stacks->b, free);
 	free(stacks);
+}
+
+void	ft_error(t_stacks *stacks, char **split)
+{
+	if (split != NULL)
+		ft_free_split(split);
+	if (stacks != NULL)
+		free_stacks(stacks);
+	write(2, "Error\n", 6);
+	exit(1);
 }
