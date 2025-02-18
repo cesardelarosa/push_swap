@@ -6,7 +6,7 @@
 /*   By: cde-la-r <cde-la-r@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 04:50:34 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/13 23:48:41 by cesi             ###   ########.fr       */
+/*   Updated: 2025/02/18 13:40:36 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ char	*save_tail(char *line)
 		return (NULL);
 	tail = ft_strdup(next + 1);
 	*next = '\0';
+	if (tail[0] == '\0')
+	{
+		free(tail);
+		return (NULL);
+	}
 	return (tail);
 }
 
