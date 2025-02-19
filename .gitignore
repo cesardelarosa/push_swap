@@ -1,0 +1,12 @@
+*
+!.gitignore
+!.gitmodules
+!*/
+!include/*.h
+!libft/*.h
+!libft/*.c
+!src/*.h
+!bonus/*.h
+!minilibx/*
+!Makefile
+!README.md
