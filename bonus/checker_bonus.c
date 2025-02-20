@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:21:26 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/18 13:21:34 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:06:51 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execute_instruction(t_stacks *stacks, char *instr)
 	else if (!ft_strncmp(instr, "rrr", 4))
 		silent_reverse_rotate(stacks, MOVE_RRR);
 	else
-		ft_error();
+		ft_error(NULL, NULL);
 }
 
 int	main(int argc, char **argv)
