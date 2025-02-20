@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_rotate.c                                   :+:      :+:    :+:   */
+/*   moves_implementation_bonus.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/12 18:43:55 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/12 18:44:17 by cde-la-r         ###   ########.fr       */
+/*   Created: 2025/02/20 12:13:33 by cde-la-r          #+#    #+#             */
+/*   Updated: 2025/02/20 12:15:11 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "moves.h"
+void	push_node(t_list **src, t_list **dest)
+{
+	t_list	*tmp;
+
+	if (src && *src)
+	{
+		tmp = *src;
+		*src = (*src)->next;
+		tmp->next = *dest;
+		*dest = tmp;
+	}
+}
 
 void	reverse_rotate_node(t_list **stack)
 {
@@ -33,35 +43,32 @@ void	reverse_rotate_node(t_list **stack)
 	*stack = curr;
 }
 
-void	reverse_rotate(t_stacks *stacks, int type_move)
+void	rotate_node(t_list **stack)
 {
-	if (MOVE_RRA == type_move)
-	{
-		reverse_rotate_node(&stacks->a);
-		ft_putstr(RRA);
-	}
-	else if (MOVE_RRB == type_move)
-	{
-		reverse_rotate_node(&stacks->b);
-		ft_putstr(RRB);
-	}
-	else if (MOVE_RRR == type_move)
-	{
-		reverse_rotate_node(&stacks->a);
-		reverse_rotate_node(&stacks->b);
-		ft_putstr(RRR);
-	}
+	t_list	*head;
+	t_list	*tail;
+
+	if (!stack || !*stack || !((*stack)->next))
+		return ;
+	head = *stack;
+	*stack = head->next;
+	head->next = NULL;
+	tail = *stack;
+	while (tail->next)
+		tail = tail->next;
+	tail->next = head;
 }
 
-void	silent_reverse_rotate(t_stacks *stacks, int type_move)
+void	swap_node(t_list **stack)
 {
-	if (MOVE_RRA == type_move)
-		reverse_rotate_node(&stacks->a);
-	else if (MOVE_RRB == type_move)
-		reverse_rotate_node(&stacks->b);
-	else if (MOVE_RRR == type_move)
-	{
-		reverse_rotate_node(&stacks->a);
-		reverse_rotate_node(&stacks->b);
-	}
+	t_list	*first;
+	t_list	*second;
+
+	if (!stack || !*stack || !((*stack)->next))
+		return ;
+	first = *stack;
+	second = first->next;
+	first->next = second->next;
+	second->next = first;
+	*stack = second;
 }
