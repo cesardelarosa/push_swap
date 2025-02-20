@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "moves.h"
 #include "push_swap.h"
-#include <limits.h>
 
 static int	find_insert_index(t_list *a, int n)
 {

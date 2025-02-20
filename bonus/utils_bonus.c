@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "push_swap.h"
-#include <stdlib.h>
+#include "checker_bonus.h"
 
 int	check_order(t_list *a)
 {

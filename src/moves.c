@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "push_swap.h"
+
 void	push(t_stacks *stacks, int type_move)
 {
 	if (type_move == MOVE_PA)

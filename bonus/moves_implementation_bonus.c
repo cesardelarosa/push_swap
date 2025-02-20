@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "checker_bonus.h"
+
 void	push_node(t_list **src, t_list **dest)
 {
 	t_list	*tmp;

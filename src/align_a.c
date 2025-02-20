@@ -6,14 +6,11 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:56:28 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/16 18:57:04 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:41:06 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "moves.h"
-#include "libft.h"
-#include <limits.h>
 
 static int	find_min_index(t_list *a)
 {

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "moves.h"
-#include <stdlib.h>
+#include "push_swap.h"
 
 #define HEURISTIC 1.065
 
