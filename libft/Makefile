@@ -1,5 +1,6 @@
 NAME = libft.a
-CC = gcc
+
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
@@ -14,7 +15,9 @@ BONUS_SRC = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 		ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
 		ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c ft_lstcpy_bonus.c \
 		ft_lstrm_node_bonus.c
+
 GNL_SRC = get_next_line.c
+
 PRINTF_SRC = ft_printf.c ft_putargs.c
 
 OBJ = $(SRC:.c=.o)
@@ -28,21 +31,24 @@ $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
 
 bonus: $(BONUS_OBJ)
-	touch .bonus
-	ar rcs $(NAME) $(BONUS_OBJ)
+	@if [ ! -f .bonus ]; then \
+	    touch .bonus; \
+	    ar rcs $(NAME) $(BONUS_OBJ); \
+	fi
 
 gnl: $(GNL_OBJ)
-	touch .gnl
-	ar rcs $(NAME) $(GNL_OBJ)
+	@if [ ! -f .gnl ]; then \
+	    touch .gnl; \
+	    ar rcs $(NAME) $(GNL_OBJ); \
+	fi
 
 printf: $(PRINTF_OBJ)
-	touch .printf
-	ar rcs $(NAME) $(PRINTF_OBJ)
+	@if [ ! -f .printf ]; then \
+	    touch .printf; \
+	    ar rcs $(NAME) $(PRINTF_OBJ); \
+	fi
 
-complete: all
-	@$(MAKE) bonus -C .
-	@$(MAKE) gnl -C .
-	@$(MAKE) printf -C .
+complete: all bonus gnl printf
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -58,4 +64,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re gnl printf 
+.PHONY: all clean fclean re gnl printf bonus complete
