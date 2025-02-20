@@ -16,7 +16,7 @@ SRC_BONUS = $(addprefix $(SRC_DIR)/, $(SRC_BONUS_FILES) $(SRC_COMMON_FILES))
 OBJ       = $(addprefix $(OBJ_DIR)/, $(SRC_MANDATORY_FILES:.c=.o) $(SRC_COMMON_FILES:.c=.o))
 OBJ_BONUS = $(addprefix $(OBJ_DIR)/, $(SRC_BONUS_FILES:.c=.o) $(SRC_COMMON_FILES:.c=.o))
 
-CC      = cc
+CC      = gcc
 CFLAGS  = -Wall -Wextra -Werror -I $(INC_DIR) -I $(LIBFT_DIR)
 LIBFTA  = -L $(LIBFT_DIR) -lft
 
