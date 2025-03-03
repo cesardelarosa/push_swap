@@ -6,7 +6,7 @@
 /*   By: cde-la-r <code@cesardelarosa.xyz>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 12:50:57 by cde-la-r          #+#    #+#             */
-/*   Updated: 2025/02/20 12:50:58 by cde-la-r         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:07:40 by cde-la-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,17 @@
 int	check_order(t_list *a)
 {
 	t_list	*current;
-	int		count;
 
 	if (!a || !a->next)
 		return (1);
-	count = 0;
 	current = a;
 	while (current->next)
 	{
 		if (*(int *)(current->content) > *(int *)(current->next->content))
-			count++;
+			return (0);
 		current = current->next;
 	}
-	if (*(int *)(current->content) > *(int *)(a->content))
-		count++;
-	return (count <= 1);
+	return (1);
 }
 
 void	free_stacks(t_stacks *stacks)
