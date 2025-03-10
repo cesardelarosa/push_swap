@@ -74,14 +74,49 @@ A Makefile is provided to compile both the main project and the bonus checker.
 
 The project includes a performance graph (`images/performance_graph.png`) which displays the number of moves required across different executions based on the number of elements to sort. This graph helps in visualizing the efficiency and scalability of the algorithm.
 
-| Number of Elements | Moves                 |
-|--------------------|-----------------------|
-| 3                  | Max: 2                |
-| 5                  | Max: 11               |
-| 100                | Avg: 565 (max ~650)   |
-| 500                | Avg: 4300 (max ~4800) |
 
-![Performance Graph](images/performance_graph.png)
+## Performance
+
+The project includes a performance graph (`images/performance_graph.png`) that illustrates the number of moves required across various executions based on the number of elements to sort. This graph demonstrates the efficiency and scalability of the algorithm.
+
+<div align="center">
+
+<strong>Performance Data</strong>
+
+
+<table border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <th>Number of Elements</th>
+    <th>Maximum Moves</th>
+    <th>Average Moves</th>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>2</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>11</td>
+    <td>7</td>
+  </tr>
+  <tr>
+    <td>100</td>
+    <td>~650</td>
+    <td>~565</td>
+  </tr>
+  <tr>
+    <td>500</td>
+    <td>~4800</td>
+    <td>~4300</td>
+  </tr>
+</table>
+
+<a href="images/performance_graph.png">
+  <img src="images/performance_graph.png" alt="Performance Graph" style="height: 800px;"/>
+</a>
+
+</div>
 
 ---
 
@@ -103,16 +138,18 @@ push_swap/
 
 The Push_Swap algorithm is divided into several logical parts. Below are the mermaid diagrams representing the workflow of each key component.
 
-### Align A
+### Main Flow
 
-This function rotates stack A until the smallest element is at the top:
+The overall execution of the push_swap program follows this sequence:
 
 ```mermaid
 flowchart TD
-    P3_Start[["align_a()"]] --> P3_Find[["min_idx = find_min_index(A)"]]
-    P3_Find --> P3_Check{"min_idx ≤ n_a/2?"}
-    P3_Check -- Yes --> P3_RA[["RA × min_idx"]]
-    P3_Check -- No --> P3_RRA[["RRA × (n_a - min_idx)"]]
+    A["main()"]
+    A --> B["parser(argc, argv)"]
+    B --> C["a_to_b()"]
+    C --> D["b_to_a()"]
+    D --> E["align_a()"]
+    E --> F["free_stacks()"]
 ```
 
 ### a_to_b
@@ -156,33 +193,33 @@ After the partitioning is complete, the `b_to_a` function pushes elements back t
 ```mermaid
 flowchart TD
     Start["b_to_a(stacks)"] --> CheckBEmpty{"Is stack B empty?"}
-    CheckBEmpty -- Yes --> End[["Return"]]
+    CheckBEmpty -- Yes --> End["Return"]
     CheckBEmpty -- No --> BestMove
 
     subgraph BestMove [Calculate Optimal Move]
         direction TB
-        BM_Start[["For each node in B:"]] --> BM_InitVars["current_idx=0\nbest_cost=INT_MAX"]
+        BM_Start["For each node in B:"] --> BM_InitVars["current_idx=0\nbest_cost=INT_MAX"]
         BM_InitVars --> BM_Loop{"current_idx < n_b?"}
         BM_Loop -- Yes --> BM_CalcTarget["target_idx = find_insert_index(A, node_value)\nraw_ra = target_idx\nraw_rb = current_idx"]
         BM_CalcTarget --> BM_OptimizeRot["Optimize rotations:\nra = raw_ra > n_a/2 ? raw_ra - n_a : raw_ra\nrb = raw_rb > n_b/2 ? raw_rb - n_b : raw_rb"]
-        BM_OptimizeRot --> BM_CalcCost["Calculate cost:\ncost = (ra*rb > 0) ? max(abs(ra),abs(rb)) : abs(ra)+abs(rb)"]
+        BM_OptimizeRot --> BM_CalcCost["Calculate cost:\ncost = (ra*rb > 0) ? max(abs(ra), abs(rb)) : abs(ra)+abs(rb)"]
         BM_CalcCost --> BM_Compare{"cost < best_cost?"}
         BM_Compare -- Yes --> BM_UpdateBest["best_ra=ra\nbest_rb=rb\nbest_cost=cost"]
         BM_Compare -- No --> BM_Incr
         BM_UpdateBest --> BM_Incr["current_idx++"]
         BM_Incr --> BM_Loop
-        BM_Loop -- No --> BM_End[["Return best_ra, best_rb"]]
+        BM_Loop -- No --> BM_End["Return best_ra, best_rb"]
     end
 
     BestMove --> ExecuteRotations
 
     subgraph ExecuteRotations [Execute Rotations]
         direction TB
-        ER_Start[["best_ra = optimized A rotations\nbest_rb = optimized B rotations"]] --> ER_CheckRR{"Same direction?\n(best_ra > 0 && best_rb > 0)"}
-        ER_CheckRR -- Yes --> ER_DoRR[["Execute RR:\nra_remaining = best_ra - 1\nrb_remaining = best_rb - 1"]]
+        ER_Start["best_ra = optimized A rotations\nbest_rb = optimized B rotations"] --> ER_CheckRR{"Same direction?\n(best_ra > 0 && best_rb > 0)"}
+        ER_CheckRR -- Yes --> ER_DoRR["Execute RR:\nra_remaining = best_ra - 1\nrb_remaining = best_rb - 1"]
         ER_CheckRR -- No --> ER_CheckRRR{"Reverse direction?\n(best_ra < 0 && best_rb < 0)"}
-        ER_CheckRRR -- Yes --> ER_DoRRR[["Execute RRR:\nra_remaining = best_ra + 1\nrb_remaining = best_rb + 1"]]
-        ER_CheckRRR -- No --> ER_Separate[["ra_remaining = best_ra\nrb_remaining = best_rb"]]
+        ER_CheckRRR -- Yes --> ER_DoRRR["Execute RRR:\nra_remaining = best_ra + 1\nrb_remaining = best_rb + 1"]
+        ER_CheckRRR -- No --> ER_Separate["ra_remaining = best_ra\nrb_remaining = best_rb"]
         
         ER_DoRR --> ER_ProcessA
         ER_DoRRR --> ER_ProcessA
@@ -191,35 +228,33 @@ flowchart TD
         subgraph ER_ProcessA [Process A Rotations]
             direction LR
             PA_Check{"ra_remaining != 0?"} -- Yes --> PA_Dir{"ra_remaining > 0?"}
-            PA_Dir -- Yes --> PA_RA[["RA (remaining--)"]]
-            PA_Dir -- No --> PA_RRA[["RRA (remaining++)"]]
+            PA_Dir -- Yes --> PA_RA["RA (remaining--)"]
+            PA_Dir -- No --> PA_RRA["RRA (remaining++)"]
         end
         
         subgraph ER_ProcessB [Process B Rotations]
             direction LR
             PB_Check{"rb_remaining != 0?"} -- Yes --> PB_Dir{"rb_remaining > 0?"}
-            PB_Dir -- Yes --> PB_RB[["RB (remaining--)"]]
-            PB_Dir -- No --> PB_RRB[["RRB (remaining++)"]]
+            PB_Dir -- Yes --> PB_RB["RB (remaining--)"]
+            PB_Dir -- No --> PB_RRB["RRB (remaining++)"]
         end
         
         ER_ProcessA --> ER_ProcessB
     end
 
-    ExecuteRotations --> PushA[["PA: Push to stack A\nn_a++\nn_b--"]] --> CheckBEmpty
+    ExecuteRotations --> PushA["PA: Push to stack A\nn_a++\nn_b--"] --> CheckBEmpty
 ```
 
-### Main Flow
+### Align A
 
-The overall execution of the push_swap program follows this sequence:
+This function rotates stack A until the smallest element is at the top:
 
 ```mermaid
 flowchart TD
-    A["main()"]
-    A --> B["parser(argc, argv)"]
-    B --> C["a_to_b()"]
-    C --> D["b_to_a()"]
-    D --> E["align_a()"]
-    E --> F["free_stacks()"]
+    P3_Start["align_a()"] --> P3_Find["min_idx = find_min_index(A)"]
+    P3_Find --> P3_Check{"min_idx ≤ n_a/2?"}
+    P3_Check -- Yes --> P3_RA["RA × min_idx"]
+    P3_Check -- No --> P3_RRA["RRA × (n_a - min_idx)"]
 ```
 
 ---
@@ -233,6 +268,21 @@ ARGS = 3 2 1 6 5 8 && ./push_swap $ARGS | ./checker $ARGS
 ```
 
 The checker reads the list of moves from push_swap and verifies whether the sequence correctly sorts the provided input.
+
+---
+
+## Tests
+
+The project includes several tests to ensure both the correctness and performance of `push_swap`. Below is an overview of the available tests:
+
+1. **Bash Test**  
+   A simple Bash script is provided for running a single test from the command line. It accepts an argument representing the number of elements, generates random numbers, executes `push_swap` with these numbers, counts the number of moves, and verifies the result using the checker. This is useful for quickly testing individual cases.
+   
+2. **Correction Test**  
+   This test uses predetermined parameters to verify that `push_swap` produces a correct sequence of moves for specific cases. It tests values of _n_ = 2, 3, 5, 100, and 500. For each _n_, multiple tests are executed (with the number of tests calculated using a gamma function) and only those tests that result in an "OK" from the checker are considered. The script prints statistics including the number of tests, average moves, minimum and maximum moves, and the OK rate.
+
+3. **Performance Graph Test**  
+   This test generates a scatter plot that shows the performance of `push_swap` across a range of _n_ values (from 1 to 500). The script runs tests for each value of _n_ and plots the number of moves for tests that pass (i.e., return "OK"). This graph provides insight into the scalability of the algorithm.
 
 ---
 
