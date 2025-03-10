@@ -1,8 +1,5 @@
 # Push_Swap
 
-[![GitHub repo](https://img.shields.io/badge/Repository-github-blue)](https://github.com/cesardelarosa/push_swap)
-[![Status](https://img.shields.io/badge/status-active-brightgreen)]()
-
 Push_Swap is a highly optimized sorting algorithm project written in C, designed under the strict 42 Norm standards. The project includes a main push_swap executable that sorts a list of integers using a limited set of operations, and a bonus checker program that validates the sequence of moves produced by push_swap.
 
 ---
