@@ -238,7 +238,7 @@ The project includes a performance graph (`images/performance_graph.png`) which 
 | 100                | Avg: 565 (max ~650)   |
 | 500                | Avg: 4300 (max ~4800) |
 
-![Performance Graph](performance_graph.png)
+![Performance Graph](images/performance_graph.png)
 
 ---
 
