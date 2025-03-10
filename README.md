@@ -246,16 +246,11 @@ The project includes a performance graph (`images/performance_graph.png`) which 
 
 ```
 push_swap/
-├── align_a.mmd            # Mermaid diagram for align_a function
-├── a_to_b.mmd             # Mermaid diagram for a_to_b function
-├── b_to_a.mmd             # Mermaid diagram for b_to_a function
-├── main.mmd               # Mermaid diagram for main program flow
-├── bonus/                 # Bonus files (checker and related source files)
-├── checker                # Checker executable (compiled from bonus)
+├── bonus/                 # Bonus .c files (checker and related source files)
+├── include/               # .h files for push_swap
 ├── libft/                 # Custom libft library
 ├── Makefile               # Build instructions
-├── performance_graph.png  # Performance graph image
-├── src/                   # Main source files for push_swap
+├── src/                   # Main .c files for push_swap
 └── tests/                 # Test cases and scripts
 ```
 
