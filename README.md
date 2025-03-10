@@ -7,26 +7,6 @@ Push_Swap is a highly optimized sorting algorithm project written in C, designed
 
 ---
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Compilation](#compilation)
-- [Usage](#usage)
-- [Algorithm Overview](#algorithm-overview)
-  - [Align A](#align-a)
-  - [a_to_b](#a_to_b)
-  - [b_to_a](#b_to_a)
-  - [Main Flow](#main-flow)
-- [Bonus: Checker](#bonus-checker)
-- [Performance](#performance)
-- [Project Structure](#project-structure)
-- [Code Style & Norms](#code-style--norms)
-- [Contributing](#contributing)
-- [License](#license)
-- [Author](#author)
-
----
-
 ## Installation
 
 Clone the repository with submodules (e.g., libft) using the following command:
@@ -90,6 +70,26 @@ A Makefile is provided to compile both the main project and the bonus checker.
   ```bash
   ./push_swap 3 2 1 6 5 8 | ./checker 3 2 1 6 5 8
   ```
+
+---
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Compilation](#compilation)
+- [Usage](#usage)
+- [Algorithm Overview](#algorithm-overview)
+  - [Align A](#align-a)
+  - [a_to_b](#a_to_b)
+  - [b_to_a](#b_to_a)
+  - [Main Flow](#main-flow)
+- [Bonus: Checker](#bonus-checker)
+- [Performance](#performance)
+- [Project Structure](#project-structure)
+- [Code Style & Norms](#code-style--norms)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
 
 ---
 
@@ -223,7 +223,7 @@ flowchart TD
 The bonus component is a checker program that validates the output of push_swap. To use the checker, pipe the output of push_swap into checker:
 
 ```bash
-./push_swap 3 2 1 6 5 8 | ./checker 3 2 1 6 5 8
+ARGS = 3 2 1 6 5 8 && ./push_swap $ARGS | ./checker $ARGS
 ```
 
 The checker reads the list of moves from push_swap and verifies whether the sequence correctly sorts the provided input.
@@ -232,14 +232,14 @@ The checker reads the list of moves from push_swap and verifies whether the sequ
 
 ## Performance
 
-The project includes a performance graph (`performance_graph.png`) which displays the number of moves required across different executions based on the number of elements to sort. This graph helps in visualizing the efficiency and scalability of the algorithm.
+The project includes a performance graph (`images/performance_graph.png`) which displays the number of moves required across different executions based on the number of elements to sort. This graph helps in visualizing the efficiency and scalability of the algorithm.
 
-| Number of Elements | Max/Avg Moves          |
-|--------------------|------------------------|
-| 3 elements         | Max: 2                |
-| 5 elements         | Max: 11               |
-| 100 elements       | Avg: 565 (max ~650)   |
-| 500 elements       | Avg: 4300 (max ~4800) |
+| Number of Elements | Moves                 |
+|--------------------|-----------------------|
+| 3                  | Max: 2                |
+| 5                  | Max: 11               |
+| 100                | Avg: 565 (max ~650)   |
+| 500                | Avg: 4300 (max ~4800) |
 
 ![Performance Graph](performance_graph.png)
 
