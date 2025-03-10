@@ -10,4 +10,5 @@
 !bonus/*.c
 !minilibx/*
 !Makefile
+!images/*.png
 !README.md
