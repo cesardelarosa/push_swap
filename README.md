@@ -70,23 +70,32 @@ A Makefile is provided to compile both the main project and the bonus checker.
 
 ---
 
-## Table of Contents
+## Performance
 
-- [Installation](#installation)
-- [Compilation](#compilation)
-- [Usage](#usage)
-- [Algorithm Overview](#algorithm-overview)
-  - [Align A](#align-a)
-  - [a_to_b](#a_to_b)
-  - [b_to_a](#b_to_a)
-  - [Main Flow](#main-flow)
-- [Bonus: Checker](#bonus-checker)
-- [Performance](#performance)
-- [Project Structure](#project-structure)
-- [Code Style & Norms](#code-style--norms)
-- [Contributing](#contributing)
-- [License](#license)
-- [Author](#author)
+The project includes a performance graph (`images/performance_graph.png`) which displays the number of moves required across different executions based on the number of elements to sort. This graph helps in visualizing the efficiency and scalability of the algorithm.
+
+| Number of Elements | Moves                 |
+|--------------------|-----------------------|
+| 3                  | Max: 2                |
+| 5                  | Max: 11               |
+| 100                | Avg: 565 (max ~650)   |
+| 500                | Avg: 4300 (max ~4800) |
+
+![Performance Graph](images/performance_graph.png)
+
+---
+
+## Project Structure
+
+```
+push_swap/
+├── bonus/                 # Bonus .c files (checker and related source files)
+├── include/               # .h files for push_swap
+├── libft/                 # Custom libft library
+├── Makefile               # Build instructions
+├── src/                   # Main .c files for push_swap
+└── tests/                 # Test cases and scripts
+```
 
 ---
 
@@ -224,45 +233,6 @@ ARGS = 3 2 1 6 5 8 && ./push_swap $ARGS | ./checker $ARGS
 ```
 
 The checker reads the list of moves from push_swap and verifies whether the sequence correctly sorts the provided input.
-
----
-
-## Performance
-
-The project includes a performance graph (`images/performance_graph.png`) which displays the number of moves required across different executions based on the number of elements to sort. This graph helps in visualizing the efficiency and scalability of the algorithm.
-
-| Number of Elements | Moves                 |
-|--------------------|-----------------------|
-| 3                  | Max: 2                |
-| 5                  | Max: 11               |
-| 100                | Avg: 565 (max ~650)   |
-| 500                | Avg: 4300 (max ~4800) |
-
-![Performance Graph](images/performance_graph.png)
-
----
-
-## Project Structure
-
-```
-push_swap/
-├── bonus/                 # Bonus .c files (checker and related source files)
-├── include/               # .h files for push_swap
-├── libft/                 # Custom libft library
-├── Makefile               # Build instructions
-├── src/                   # Main .c files for push_swap
-└── tests/                 # Test cases and scripts
-```
-
----
-
-## Code Style & Norms
-
-This project adheres strictly to the 42 Norm standards:
-- **Tabs Only:** Code indentation uses tabs exclusively.
-- **Variable Declaration:** Variables are declared before assignment.
-- **Libft Usage:** Custom libft functions are used in place of standard library functions (e.g., avoiding string.h functions).
-- **Control Structures:** The project avoids using forbidden constructs such as `for` loops and ternary operators, ensuring the code complies with the Norm.
 
 ---
 
