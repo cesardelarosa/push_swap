@@ -12,3 +12,5 @@
 !Makefile
 !images/*.png
 !README.md
+!tests/*.py
+!tests/*.sh
