@@ -248,7 +248,7 @@ The checker reads the list of moves from push_swap and verifies whether the sequ
 
 ## Tests
 
-The project includes several tests to ensure both the correctness and performance of `push_swap`. Below is an overview of the available tests:
+The project includes several tests to ensure both the correctness and performance of `push_swap`, also available [here](https://github.com/cesardelarosa/push_swap_performance_tester). Below is an overview of the available tests:
 
 1. **Bash Test**  
    A simple Bash script is provided for running a single test from the command line. It accepts an argument representing the number of elements, generates random numbers, executes `push_swap` with these numbers, counts the number of moves, and verifies the result using the checker. This is useful for quickly testing individual cases.
