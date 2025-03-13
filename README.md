@@ -84,11 +84,11 @@ The project includes performance graph tests that illustrate the number of moves
 <strong>Performance Data</strong>
 
 <a href="images/correction.png">
-  <img src="images/correction.png" alt="Correction Test Graph" style="height: 600px;"/>
+  <img src="images/correction.png" alt="Correction Test Graph"/>
 </a>
 
 <a href="images/performance.png">
-  <img src="images/performance.png" alt="Performance Test Graph" style="height: 600px;"/>
+  <img src="images/performance.png" alt="Performance Test Graph"/>
 </a>
 
 </div>
