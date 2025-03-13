@@ -77,43 +77,18 @@ The project includes a performance graph (`images/performance_graph.png`) which 
 
 ## Performance
 
-The project includes a performance graph (`images/performance_graph.png`) that illustrates the number of moves required across various executions based on the number of elements to sort. This graph demonstrates the efficiency and scalability of the algorithm.
+The project includes performance graph tests that illustrate the number of moves required across various executions based on the number of elements to sort. This graph demonstrates the efficiency and scalability of the algorithm.
 
 <div align="center">
 
 <strong>Performance Data</strong>
 
+<a href="images/correction.png">
+  <img src="images/correction.png" alt="Correction Test Graph" style="height: 600px;"/>
+</a>
 
-<table border="1" cellspacing="0" cellpadding="5">
-  <tr>
-    <th>Number of Elements</th>
-    <th>Maximum Moves</th>
-    <th>Average Moves</th>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>2</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>11</td>
-    <td>7</td>
-  </tr>
-  <tr>
-    <td>100</td>
-    <td>~650</td>
-    <td>~565</td>
-  </tr>
-  <tr>
-    <td>500</td>
-    <td>~4800</td>
-    <td>~4300</td>
-  </tr>
-</table>
-
-<a href="images/performance_graph.png">
-  <img src="images/performance_graph.png" alt="Performance Graph" style="height: 800px;"/>
+<a href="images/performance.png">
+  <img src="images/performance.png" alt="Performance Test Graph" style="height: 600px;"/>
 </a>
 
 </div>
